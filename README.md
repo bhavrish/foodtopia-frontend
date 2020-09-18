@@ -1,3 +1,8 @@
+Project description coming soon.
+
+It was developed by Bhavesh Shah, Zeal Patel, Greg Kimatov, Yihui Wuchen, and Victoria Yang for our Software Engineering class.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
