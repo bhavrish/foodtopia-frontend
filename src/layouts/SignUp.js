@@ -161,7 +161,7 @@ export default function SignUp() {
                                 >
                                     <option aria-label="None" value="" />
                                     <option value={0}>Customer</option>
-                                    <option value={1}>Chefs</option>
+                                    <option value={1}>Chef</option>
                                     <option value={2}>Delivery</option>
                                     <option value={3}>Manager</option>
                                 </Select>
@@ -248,7 +248,7 @@ export default function SignUp() {
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/signin" variant="body2">
                                 Already have an account? Sign in
                             </Link>
                         </Grid>
