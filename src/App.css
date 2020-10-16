@@ -2,17 +2,3 @@
     margin: 0;
     padding: 0;
 }
-
-.App{
-    text-align: center;
-}
-
-nav{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 5vh;
-    background: #e09465;
-    padding: 10px;
-}
