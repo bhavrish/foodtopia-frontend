@@ -21,12 +21,13 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { OutlinedInput } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant='body2' color='textSecondary' align='center'>
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color='inherit' href='https://material-ui.com/'>
         Restaurant App
       </Link>{' '}
       {new Date().getFullYear()}
@@ -36,8 +37,7 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
-  },
+  formControl: {},
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -58,106 +58,110 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [userType, setUserType] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
   const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const handleClickShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   const handleMouseDownPassword = (event) => {
-    event.preventDefault()
-  }
+    event.preventDefault();
+  };
 
   const handleInput = (event) => {
-    const target = event.target
-    switch(target.name){
-      case "email":
-        setEmail(target.value)
-        break
-      case "password":
-        setPassword(target.value)
-        break
-      case "userType":
-        setUserType(target.value)
-        break
+    const target = event.target;
+    switch (target.name) {
+      case 'email':
+        setEmail(target.value);
+        break;
+      case 'password':
+        setPassword(target.value);
+        break;
+      case 'userType':
+        setUserType(target.value);
+        break;
     }
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(email)
-    console.log(password)
-    console.log(userType)
-  }
+    console.log(email);
+    console.log(password);
+    console.log(userType);
+  };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <TextField
-            variant="outlined"
-            margin="normal"
+            variant='outlined'
+            margin='normal'
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id='email'
+            label='Email Address'
+            name='email'
+            autoComplete='email'
             autoFocus
             onInput={handleInput}
-            error={emailRegex.test(email) || email === "" ? false : true}
+            error={emailRegex.test(email) || email === '' ? false : true}
           />
 
-          <FormControl variant="outlined" fullWidth>
-              <InputLabel htmlFor="outlined-adornment-password">Password*</InputLabel>
-              <OutlinedInput
-                  required
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  id="password"
-                  autoComplete="current-password"
-                  onInput={handleInput}
-                  endAdornment={
-                      <InputAdornment position="end">
-                          <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                          >
-                              {showPassword ? <Visibility /> : <VisibilityOff />}
-                          </IconButton>
-                      </InputAdornment>
-                  }
-                  labelWidth={80}
-              />
+          <FormControl variant='outlined' fullWidth>
+            <InputLabel htmlFor='outlined-adornment-password'>
+              Password*
+            </InputLabel>
+            <OutlinedInput
+              required
+              name='password'
+              type={showPassword ? 'text' : 'password'}
+              id='password'
+              autoComplete='current-password'
+              onInput={handleInput}
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton
+                    aria-label='toggle password visibility'
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge='end'
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={80}
+            />
           </FormControl>
-          
-          <FormControl variant="outlined" fullWidth margin="normal">
-            <InputLabel htmlFor="outlined-userType-native-simple">User Type*</InputLabel>
+
+          <FormControl variant='outlined' fullWidth margin='normal'>
+            <InputLabel htmlFor='outlined-userType-native-simple'>
+              User Type*
+            </InputLabel>
             <Select
               native
               onInput={handleInput}
               required
-              label="User Type"
+              label='User Type'
               inputProps={{
                 name: 'userType',
                 id: 'outlined-userType-native-simple',
               }}
             >
-              <option aria-label="None" value="" />
+              <option aria-label='None' value='' />
               <option value={0}>Customer</option>
               <option value={1}>Chef</option>
               <option value={2}>Delivery</option>
@@ -166,23 +170,23 @@ export default function SignIn() {
           </FormControl>
 
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            control={<Checkbox value='remember' color='primary' />}
+            label='Remember me'
           />
           <Button
-            type="submit"
+            type='submit'
             fullWidth
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             className={classes.submit}
           >
             Sign In
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container justify='flex-end'>
             <Grid item>
-              <Link href="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <RouterLink to='/signup'>
+                <Link variant='body2'>{"Don't have an account? Sign Up"}</Link>
+              </RouterLink>
             </Grid>
           </Grid>
         </form>
