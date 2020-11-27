@@ -1,6 +1,11 @@
 import React from 'react';
 import './App.css';
 import {SignUp, SignIn} from './layouts/Auth';
+import {CustListItems} from './layouts/Customer';
+import {ManagListItems} from './layouts/Manager';
+import {ChefListItems} from './layouts/Chef';
+import {DelivListItems} from './layouts/Delivery';
+import {DashboardLayout, Home, Menus} from './layouts';
 import {Nav} from './components';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 
@@ -9,11 +14,13 @@ export default function App() {
     <Router>
       <div className='App'>
         <Switch>
+          <Route path="/delivery" component={DeliveryLayout}/>
+          <Route path="/chef" component={ChefLayout}/>
           <Route path="/manager" component={ManagerLayout}/>
           <Route path="/customer" component={CustomerLayout}/>
           <Route path="/auth" component={AuthLayout} />
-          <Route path="/menus" component={menus} />
-          <Route path="/" component={home} />
+          <Route path="/menus" component={Menus} />
+          <Route path="/" component={Home} />
         </Switch>
       </div>
     </Router>
@@ -30,50 +37,76 @@ function AuthLayout() {
   );
 }
 
-const home = () =>{
-  return (
-    <div>
-      <Nav/>
-      <h1> This is home page</h1>
-    </div>
-  );
-}
-
-const menus = () =>{
-  return (
-    <div>
-      <h1> This is menus page </h1>
-    </div>
-  );
-}
-
 function CustomerLayout() {
+  const routes = (
+    <Switch>
+      <Redirect exact from="/customer" to="/customer/dashboard"/>
+      <Route path="/customer/dashboard" exact component={Dashboard}/>
+      <Route path="/customer/cart" exact component={Cart}/>
+      <Route path="/customer/discussion" exact component={Cart}/>
+    </Switch>
+  );
+
   return(
-      <Switch>
-          <Redirect exact from="/Customer" to="/Customer/dashboard"/>
-          <Route path="/Customer/profile" exact component={Profile}/>
-          <Route path="/Customer/dashboard" exact component={Dashboard}/>
-      </Switch>
+    <DashboardLayout listItems={CustListItems} routes={routes} userName="Customer Name"/>
   );
 }
 
 function ManagerLayout() {
+  const routes = (
+    <Switch>
+      <Redirect exact from="/manager" to="/manager/dashboard"/>
+      <Route path="/manager/dashboard" exact component={Dashboard}/>
+      <Route path="/manager/employees" exact component={Dashboard}/>
+      <Route path="/manager/customers" exact component={Dashboard}/>
+      <Route path="/manager/discussion" exact component={Dashboard}/>
+    </Switch>
+  );
+
   return(
-      <Switch>
-          <Redirect exact from="/manager" to="/manager/dashboard"/>
-          <Route path="/manager/profile" exact component={Profile}/>
-          <Route path="/manager/dashboard" exact component={Dashboard}/>
-      </Switch>
+    <DashboardLayout listItems={ManagListItems} routes={routes} userName="Manager Name"/>
   );
 }
 
-const Profile = () =>{
-  return (
-    <h1> This is user profile</h1>
+function ChefLayout() {
+  const routes = (
+    <Switch>
+      <Redirect exact from="/chef" to="/chef/dashboard"/>
+      <Route path="/chef/dashboard" exact component={Dashboard}/>
+      <Route path="/chef/recipes" exact component={Dashboard}/>
+      <Route path="/chef/orders" exact component={Dashboard}/>
+      <Route path="/chef/discussion" exact component={Dashboard}/>
+    </Switch>
+  );
+
+  return(
+    <DashboardLayout listItems={ChefListItems} routes={routes} userName="Chef Name"/>
   );
 }
+
+function DeliveryLayout() {
+  const routes = (
+    <Switch>
+      <Redirect exact from="/delivery" to="/delivery/dashboard"/>
+      <Route path="/delivery/dashboard" exact component={Dashboard}/>
+      <Route path="/delivery/deliveries" exact component={Dashboard}/>
+      <Route path="/delivery/discussion" exact component={Dashboard}/>
+    </Switch>
+  );
+
+  return(
+    <DashboardLayout listItems={DelivListItems} routes={routes} userName="Delivery Name"/>
+  );
+}
+
 const Dashboard = () =>{
   return (
-    <h1> This is dashboard</h1>
+    <h1> Home </h1>
+  );
+}
+
+const Cart = () =>{
+  return (
+    <h1> Cart </h1>
   );
 }
