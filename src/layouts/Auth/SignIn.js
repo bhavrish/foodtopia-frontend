@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -184,7 +184,7 @@ export default function SignIn() {
           </Button>
           <Grid container justify='flex-end'>
             <Grid item>
-              <RouterLink to='/signup'>
+              <RouterLink to='/auth/signup'>
                 <Link variant='body2'>{"Don't have an account? Sign Up"}</Link>
               </RouterLink>
             </Grid>

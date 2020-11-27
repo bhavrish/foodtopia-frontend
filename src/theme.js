@@ -7,12 +7,20 @@ const theme = createMuiTheme({
       default: '#fff', // add background color hex code
     },
     primary: {
-      main: '#e09465',
+      main: '#F0C044',
       contrastText: '#000',
     },
-    secondary: {
-      main: '#f1d07b',
-      contrastText: '#000',
+    textColor: {
+      main: '#000',
+    },
+    textBackground: {
+      main: '#F6F6F6', 
+    },
+    buttonColor1: {
+      main: '#EC8C6D', 
+    },
+    buttonColor2: {
+      main: '#92B46B', 
     },
   },
 

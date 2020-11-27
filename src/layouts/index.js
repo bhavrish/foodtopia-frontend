@@ -1,4 +1,5 @@
-import SignUp from './SignUp';
-import SignIn from './SignIn';
+import Home from './Home';
+import Menus from './Menus';
+import DashboardLayout from './DashboardLayout';
 
-export {SignUp, SignIn};
+export {Home, Menus, DashboardLayout};

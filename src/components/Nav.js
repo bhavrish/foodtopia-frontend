@@ -12,19 +12,17 @@ const useStyles = makeStyles((theme) => ({
   link: {
     display: 'flex',
     alignItems: 'center',
-    color: 'black',
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
+    marginLeft: '30px',
+    color: theme.palette.textColor.main,
   },
   title: {
-    color: 'black',
+    flexGrow: 1,
+    color: theme.palette.textColor.main,
   },
 }));
 
-function Nav() {
+export default function Nav() {
   const classes = useStyles();
 
   return (
@@ -36,9 +34,11 @@ function Nav() {
             Foodtopia
           </Typography>
         </Link>
-        <RouterLink to='/signin'>
+        <RouterLink to='/auth/signin'>
           <Link className={classes.link}>
-            Sign in
+              <Typography component="h1" variant="h6" color="inherit" noWrap>
+                Sign in
+              </Typography>
             <ExitToAppIcon />
           </Link>
         </RouterLink>
@@ -47,4 +47,3 @@ function Nav() {
   );
 }
 
-export default Nav;
