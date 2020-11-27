@@ -1,3 +1,4 @@
 import Nav from './Nav';
+import DashboardNav from './DashboardNav';
 
-export {Nav};
+export {Nav, DashboardNav};

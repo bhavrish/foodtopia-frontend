@@ -12,19 +12,17 @@ const useStyles = makeStyles((theme) => ({
   link: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginLeft: '30px',
     color: theme.palette.textColor.main,
   },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
   title: {
+    flexGrow: 1,
     color: theme.palette.textColor.main,
   },
 }));
 
-function Nav() {
+export default function Nav() {
   const classes = useStyles();
 
   return (
@@ -38,7 +36,9 @@ function Nav() {
         </Link>
         <RouterLink to='/auth/signin'>
           <Link className={classes.link}>
-            Sign in
+              <Typography component="h1" variant="h6" color="inherit" noWrap>
+                Sign in
+              </Typography>
             <ExitToAppIcon />
           </Link>
         </RouterLink>
@@ -47,4 +47,3 @@ function Nav() {
   );
 }
 
-export default Nav;
