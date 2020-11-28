@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginLeft: '30px',
+    textDecoration: 'none',
     color: theme.palette.textColor.main,
   },
   title: {
@@ -24,21 +25,38 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Nav() {
   const classes = useStyles();
+  const dashboardLink = (
+    <RouterLink to='/'>
+      <Link className={classes.link}>
+        <Typography component="h1" variant="h5" color="inherit" noWrap>
+          Dashboard
+        </Typography>
+      </Link>
+    </RouterLink>
+  );
+
+  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <AppBar position='relative'>
       <CssBaseline />
       <Toolbar className={classes.toolbar}>
-        <Link href='/' className={classes.title}>
-          <Typography component='h1' variant='h5'>
-            Foodtopia
-          </Typography>
-        </Link>
+        <Typography component='h1' variant='h4' color="inherit" noWrap className={classes.title}>
+          Menus
+        </Typography>
+        <RouterLink to='/'>
+          <Link className={classes.link}>
+            <Typography component="h1" variant="h5" color="inherit" noWrap>
+              Home
+            </Typography>
+          </Link>
+        </RouterLink>
+        {isLogin ? dashboardLink : null}
         <RouterLink to='/auth/signin'>
           <Link className={classes.link}>
-              <Typography component="h1" variant="h6" color="inherit" noWrap>
-                Sign in
-              </Typography>
+            <Typography component="h1" variant="h5" color="inherit" noWrap>
+              Sign in
+            </Typography>
             <ExitToAppIcon />
           </Link>
         </RouterLink>
