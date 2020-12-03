@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -22,6 +22,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { OutlinedInput } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
+
+import AuthContext from '../../context/auth/authContext';
 
 function Copyright() {
   return (
@@ -57,13 +59,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
+  const authContext = useContext(AuthContext);
+
+  const { signin, isAuthenticated } = authContext;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
   const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push(`/${userType}/dashboard`);
+    }
+  }, [isAuthenticated, userType, props.history]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -85,14 +97,14 @@ export default function SignIn() {
       case 'userType':
         setUserType(target.value);
         break;
+      default:
+        break;
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(email);
-    console.log(password);
-    console.log(userType);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signin(email, password, userType);
   };
 
   return (
@@ -162,10 +174,10 @@ export default function SignIn() {
               }}
             >
               <option aria-label='None' value='' />
-              <option value={0}>Customer</option>
-              <option value={1}>Chef</option>
-              <option value={2}>Delivery</option>
-              <option value={3}>Manager</option>
+              <option value='customer'>Customer</option>
+              <option value='chef'>Chef</option>
+              <option value='delivery'>Delivery</option>
+              <option value='manager'>Manager</option>
             </Select>
           </FormControl>
 
