@@ -3,6 +3,7 @@ import {
   SIGNIN_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  LOAD_USER,
   SIGNOUT,
   SIGNOUT_FAIL,
   AUTH_ERROR,
@@ -30,6 +31,13 @@ export default (state, action) => {
         user: null,
       };
 
+    case LOAD_USER:
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+        user: action.payload,
+      };
     default:
       break;
   }

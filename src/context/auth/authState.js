@@ -8,6 +8,7 @@ import {
   SIGN_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  LOAD_USER,
   SIGNOUT,
   SIGNOUT_FAIL,
   AUTH_ERROR,
@@ -23,6 +24,22 @@ const AuthState = (props) => {
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
+
+  // load user
+  const loadUser = async () => {
+    setAuthToken(localStorage.token);
+
+    try {
+      const res = await axios.get('http://localhost:5000/api/auth/signin');
+
+      dispatch({
+        type: LOAD_USER,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({ type: AUTH_ERROR });
+    }
+  };
 
   // Sign In User
   const signin = async (email, password, userType) => {
@@ -47,6 +64,8 @@ const AuthState = (props) => {
         type: SIGNIN_SUCCESS,
         payload: res.data,
       });
+
+      loadUser();
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +84,7 @@ const AuthState = (props) => {
         error: state.error,
         signin,
         signout,
+        loadUser,
       }}
     >
       {props.children}

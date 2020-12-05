@@ -46,7 +46,12 @@ export default function DashboardNav(props) {
   const classes = useStyles();
   const [page, setPage] = useState('Dashboard');
 
-  const { signout, user } = useContext(AuthContext);
+  const { signout, user, loadUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div>
