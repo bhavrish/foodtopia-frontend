@@ -6,7 +6,7 @@ import { ManagListItems } from './layouts/Manager';
 import { ChefListItems } from './layouts/Chef';
 import { DelivListItems } from './layouts/Delivery';
 import { DashboardLayout, Home, Menus } from './layouts';
-import { Nav } from './components';
+import { Nav, Alerts } from './components';
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,24 +15,27 @@ import {
 } from 'react-router-dom';
 
 import AuthState from './context/auth/authState';
-import AuthContext from './context/auth/authContext';
+import AlertState from './context/alerts/alertState';
 
 export default function App() {
   return (
     <AuthState>
-      <Router>
-        <div className='App'>
-          <Switch>
-            <Route path='/delivery' component={DeliveryLayout} />
-            <Route path='/chef' component={ChefLayout} />
-            <Route path='/manager' component={ManagerLayout} />
-            <Route path='/customer' component={CustomerLayout} />
-            <Route path='/auth' component={AuthLayout} />
-            <Route path='/menus' component={Menus} />
-            <Route path='/' component={Home} />
-          </Switch>
-        </div>
-      </Router>
+      <AlertState>
+        <Router>
+          <div className='App'>
+            <Alerts />
+            <Switch>
+              <Route path='/delivery' component={DeliveryLayout} />
+              <Route path='/chef' component={ChefLayout} />
+              <Route path='/manager' component={ManagerLayout} />
+              <Route path='/customer' component={CustomerLayout} />
+              <Route path='/auth' component={AuthLayout} />
+              <Route path='/menus' component={Menus} />
+              <Route path='/' component={Home} />
+            </Switch>
+          </div>
+        </Router>
+      </AlertState>
     </AuthState>
   );
 }
@@ -48,7 +51,6 @@ function AuthLayout() {
 }
 
 function CustomerLayout() {
-  const { user } = useContext(AuthContext);
   const routes = (
     <Switch>
       <Redirect exact from='/customer' to='/customer/dashboard' />

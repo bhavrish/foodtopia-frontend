@@ -1,5 +1,5 @@
 import Nav from './Nav';
 import DashboardNav from './DashboardNav';
 import DishCard from './DishCard';
-
-export {Nav, DashboardNav, DishCard};
+import Alerts from './Alerts';
+export { Nav, DashboardNav, DishCard, Alerts };

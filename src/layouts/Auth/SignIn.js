@@ -24,6 +24,7 @@ import { OutlinedInput } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 
 import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alerts/alertContext';
 
 function Copyright() {
   return (
@@ -61,8 +62,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn(props) {
   const authContext = useContext(AuthContext);
+  const alertContext = useContext(AlertContext);
 
-  const { signin, isAuthenticated } = authContext;
+  const { signin, isAuthenticated, error, clearErrors } = authContext;
+  const { setAlert } = alertContext;
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -75,7 +78,14 @@ export default function SignIn(props) {
     if (isAuthenticated) {
       props.history.push(`/${userType}/dashboard`);
     }
-  }, [isAuthenticated, userType, props.history]);
+
+    if (error) {
+      setAlert(error, 'error');
+      clearErrors();
+    }
+
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, userType, props.history]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -104,7 +114,12 @@ export default function SignIn(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signin(email, password, userType);
+
+    if (email === '' || password === '' || userType === '') {
+      setAlert('Please fill in all the fields', 'error');
+    } else {
+      signin(email, password, userType);
+    }
   };
 
   return (

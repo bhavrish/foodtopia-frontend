@@ -5,13 +5,14 @@ import authReducer from './authReducer';
 import setAuthToken from '../../utils/setAuthToken';
 import {
   SIGNIN_SUCCESS,
-  SIGN_FAIL,
+  SIGNIN_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOAD_USER,
   SIGNOUT,
   SIGNOUT_FAIL,
   AUTH_ERROR,
+  CLEAR_ERRORS,
 } from '../types';
 
 const AuthState = (props) => {
@@ -58,8 +59,6 @@ const AuthState = (props) => {
         config
       );
 
-      console.log(res.data);
-
       dispatch({
         type: SIGNIN_SUCCESS,
         payload: res.data,
@@ -67,12 +66,19 @@ const AuthState = (props) => {
 
       loadUser();
     } catch (error) {
+      dispatch({
+        type: SIGNIN_FAIL,
+        payload: error.response.data.msg,
+      });
       console.log(error);
     }
   };
 
   // signout user
   const signout = () => dispatch({ type: SIGNOUT });
+
+  // clear errors
+  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
     <AuthContext.Provider
@@ -85,6 +91,7 @@ const AuthState = (props) => {
         signin,
         signout,
         loadUser,
+        clearErrors,
       }}
     >
       {props.children}
