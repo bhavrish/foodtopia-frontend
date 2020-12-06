@@ -6,13 +6,14 @@ import setAuthToken from '../../utils/setAuthToken';
 import {
   SIGNIN_SUCCESS,
   SIGNIN_FAIL,
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAIL,
   LOAD_USER,
   SIGNOUT,
   SIGNOUT_FAIL,
   AUTH_ERROR,
   CLEAR_ERRORS,
+  CLEAR_MSG,
 } from '../types';
 
 const AuthState = (props) => {
@@ -21,6 +22,7 @@ const AuthState = (props) => {
     isAuthenticated: null,
     loading: true,
     user: null,
+    msg: null,
     error: null,
   };
 
@@ -70,7 +72,47 @@ const AuthState = (props) => {
         type: SIGNIN_FAIL,
         payload: error.response.data.msg,
       });
-      console.log(error);
+    }
+  };
+
+  // signup user
+  const signup = async (formData) => {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      userType,
+      address,
+    } = formData;
+
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/api/auth/signup?role=${userType}`,
+        {
+          firstName,
+          lastName,
+          email,
+          password,
+          type: userType,
+          address,
+        },
+        config
+      );
+
+      dispatch({
+        type: SIGNUP_SUCCESS,
+        payload: res.data.msg,
+      });
+    } catch (error) {
+      dispatch({
+        type: SIGNUP_FAIL,
+        payload: error.response.data.msg,
+      });
     }
   };
 
@@ -80,6 +122,9 @@ const AuthState = (props) => {
   // clear errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
+  // clear msg
+  const clearMsg = () => dispatch({ type: CLEAR_MSG });
+
   return (
     <AuthContext.Provider
       value={{
@@ -88,10 +133,13 @@ const AuthState = (props) => {
         loading: state.loading,
         user: state.user,
         error: state.error,
+        msg: state.msg,
         signin,
+        signup,
         signout,
         loadUser,
         clearErrors,
+        clearMsg,
       }}
     >
       {props.children}
