@@ -14,6 +14,7 @@ import {
   AUTH_ERROR,
   CLEAR_ERRORS,
   CLEAR_MSG,
+  SERVER_ERROR,
 } from '../types';
 
 const AuthState = (props) => {
@@ -40,7 +41,17 @@ const AuthState = (props) => {
         payload: res.data,
       });
     } catch (error) {
-      dispatch({ type: AUTH_ERROR });
+      // if server side crashes than axios request will fail and error.response will be undefined
+      // so we shouldn't pass erroor.respoonse.data as property data of undefined cannot be called
+      const errMsg =
+        error.message === 'Network Error'
+          ? 'Server Error'
+          : error.response.data.msg;
+
+      dispatch({
+        type: AUTH_ERROR,
+        payload: errMsg,
+      });
     }
   };
 
@@ -68,9 +79,16 @@ const AuthState = (props) => {
 
       loadUser();
     } catch (error) {
+      // if server side crashes than axios request will fail and error.response will be undefined
+      // so we shouldn't pass erroor.respoonse.data as property data of undefined cannot be called
+      const errMsg =
+        error.message === 'Network Error'
+          ? 'Server Error'
+          : error.response.data.msg;
+
       dispatch({
         type: SIGNIN_FAIL,
-        payload: error.response.data.msg,
+        payload: errMsg,
       });
     }
   };
@@ -109,9 +127,16 @@ const AuthState = (props) => {
         payload: res.data.msg,
       });
     } catch (error) {
+      // if server side crashes than axios request will fail and error.response will be undefined
+      // so we shouldn't pass erroor.respoonse.data as property data of undefined cannot be called
+      const errMsg =
+        error.message === 'Network Error'
+          ? 'Server Error'
+          : error.response.data.msg;
+
       dispatch({
         type: SIGNUP_FAIL,
-        payload: error.response.data.msg,
+        payload: errMsg,
       });
     }
   };

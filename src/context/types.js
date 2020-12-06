@@ -10,3 +10,4 @@ export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const CLEAR_MSG = 'CLEAR_MSG';
+export const SERVER_ERROR = 'SERVER_ERROR';

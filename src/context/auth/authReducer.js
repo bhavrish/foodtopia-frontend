@@ -9,6 +9,7 @@ import {
   AUTH_ERROR,
   CLEAR_ERRORS,
   CLEAR_MSG,
+  SERVER_ERROR,
 } from '../types';
 
 export default (state, action) => {
@@ -50,6 +51,8 @@ export default (state, action) => {
     case AUTH_ERROR:
     case SIGNIN_FAIL:
     case SIGNOUT_FAIL:
+    case SIGNUP_FAIL:
+    case SERVER_ERROR:
       localStorage.removeItem('token');
       return {
         ...state,
@@ -60,15 +63,17 @@ export default (state, action) => {
         error: action.payload,
       };
 
-    case SIGNUP_FAIL:
-      return {
-        ...state,
-        token: null,
-        isAuthenticated: false,
-        loading: false,
-        user: null,
-        error: action.payload,
-      };
+    // cases where token is not retrieved so no needed to
+    // case SIGNUP_FAIL:
+    // case SERVER_ERROR:
+    //   return {
+    //     ...state,
+    //     token: null,
+    //     isAuthenticated: false,
+    //     loading: false,
+    //     user: null,
+    //     error: action.payload,
+    //   };
 
     case CLEAR_ERRORS:
       return {
