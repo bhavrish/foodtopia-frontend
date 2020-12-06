@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
+
+import AuthContext from '../context/auth/authContext';
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -24,37 +26,43 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Nav() {
+  const authContext = useContext(AuthContext);
+
   const classes = useStyles();
   const dashboardLink = (
-    <RouterLink to='/'>
+    <RouterLink to='/customer/dashboard'>
       <Link className={classes.link}>
-        <Typography component="h1" variant="h5" color="inherit" noWrap>
+        <Typography component='h1' variant='h5' color='inherit' noWrap>
           Dashboard
         </Typography>
       </Link>
     </RouterLink>
   );
 
-  const [isLogin, setIsLogin] = useState(false);
-
   return (
     <AppBar position='relative'>
       <CssBaseline />
       <Toolbar className={classes.toolbar}>
-        <Typography component='h1' variant='h4' color="inherit" noWrap className={classes.title}>
+        <Typography
+          component='h1'
+          variant='h4'
+          color='inherit'
+          noWrap
+          className={classes.title}
+        >
           Menus
         </Typography>
         <RouterLink to='/'>
           <Link className={classes.link}>
-            <Typography component="h1" variant="h5" color="inherit" noWrap>
+            <Typography component='h1' variant='h5' color='inherit' noWrap>
               Home
             </Typography>
           </Link>
         </RouterLink>
-        {isLogin ? dashboardLink : null}
+        {authContext.isAuthenticated ? dashboardLink : null}
         <RouterLink to='/auth/signin'>
           <Link className={classes.link}>
-            <Typography component="h1" variant="h5" color="inherit" noWrap>
+            <Typography component='h1' variant='h5' color='inherit' noWrap>
               Sign in
             </Typography>
             <ExitToAppIcon />
@@ -64,4 +72,3 @@ export default function Nav() {
     </AppBar>
   );
 }
-
