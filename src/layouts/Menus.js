@@ -39,12 +39,12 @@ export default function Menus() {
       <Grid container spacing={2} style={{ margin: 0, width: '100%' }}>
         <Grid container item xs={12} spacing={3}>
           {menuItems.map((menuItem) => (
-            <Grid item xs={4}>
+            <Grid key={menuItem._id} item xs={4}>
               <DishCard
                 imageSrc={`http://localhost:5000/api/menuItems/images/${menuItem.image}`}
                 title={menuItem.title}
                 price={menuItem.price}
-                rate={2.5}
+                rate={menuItem.starRating}
                 chefName={menuItem.chefName}
                 description={menuItem.description}
               />

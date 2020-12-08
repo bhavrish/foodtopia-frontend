@@ -5,8 +5,7 @@ export default (state, action) => {
     case GET_MENUITEMS:
       return {
         ...state,
-        menuItems: action.payload.menuItems,
-        menuItemsImages: action.payload.menuItemsImages,
+        menuItems: action.payload,
         loading: false,
       };
 

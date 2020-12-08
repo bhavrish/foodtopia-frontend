@@ -7,7 +7,6 @@ import { GET_MENUITEMS, GET_MENUITEMS_ERROR, CLEAR_ERRORS } from '../types';
 const MenuItemsState = (props) => {
   const initialState = {
     menuItems: [],
-    menuItemsImages: null,
     current: null,
     filtered: null,
     error: null,
@@ -16,24 +15,30 @@ const MenuItemsState = (props) => {
 
   const [state, dispatch] = useReducer(MenuItemsReducer, initialState);
 
+  // find average rating of menuItem
+  const getRating = async (id) => {
+    try {
+      const rating = await axios.get(
+        `http://localhost:5000/api/menuItems/averageRating/${id}`
+      );
+      return rating.data;
+    } catch (error) {}
+  };
+
   // get menuItems
   const getMenuItems = async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/menuItems');
 
-      const menuItemsImages = {};
-
-      // put image names of menuItems into menuItemsImages
-      res.data.forEach(
-        (menuItem) => (menuItemsImages[menuItem._id] = menuItem.image)
-      );
+      // get the average rating and put it in menuItem object
+      for (const menuItem of res.data) {
+        const rating = await getRating(menuItem._id);
+        menuItem.starRating = rating ? rating : 'n/a';
+      }
 
       dispatch({
         type: GET_MENUITEMS,
-        payload: {
-          menuItems: res.data,
-          menuItemsImages,
-        },
+        payload: res.data,
       });
     } catch (error) {
       const errMsg =
@@ -54,12 +59,12 @@ const MenuItemsState = (props) => {
     <MenuItemsContext.Provider
       value={{
         menuItems: state.menuItems,
-        menuItemsImages: state.menuItemsImages,
         current: state.current,
         filtered: state.filtered,
         error: state.error,
         loading: state.loading,
         getMenuItems,
+        getRating,
         clearErrors,
       }}
     >
