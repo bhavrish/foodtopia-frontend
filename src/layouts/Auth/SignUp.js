@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -22,6 +22,9 @@ import Container from '@material-ui/core/Container';
 import { OutlinedInput } from '@material-ui/core';
 
 import { Link as RouterLink } from 'react-router-dom';
+
+import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alerts/alertContext';
 
 function Copyright() {
   return (
@@ -56,13 +59,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
+  const authContext = useContext(AuthContext);
+  const alertContext = useContext(AlertContext);
+
+  const { signup, msg, error, clearErrors, clearMsg } = authContext;
+  const { setAlert } = alertContext;
+
+  useEffect(() => {
+    if (error) {
+      setAlert(error, 'error');
+      clearErrors();
+    }
+
+    if (msg === 'Account waiting for approval') {
+      setAlert(msg, 'success');
+      clearMsg();
+    }
+    // eslint-disable-next-line
+  }, [error, msg]);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userType, setUserType] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [address, setAddress] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
   const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -97,17 +120,38 @@ export default function SignUp() {
       case 'repeatPassword':
         setRepeatPassword(target.value);
         break;
+      case 'address':
+        setAddress(target.value);
+        break;
+      default:
+        break;
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(firstName);
-    console.log(lastName);
-    console.log(userType);
-    console.log(email);
-    console.log(password);
-    console.log(repeatPassword);
+
+    if (password !== repeatPassword) {
+      setAlert('Passwords must match', 'error');
+    } else if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !password ||
+      !repeatPassword ||
+      !userType
+    ) {
+      setAlert('Please enter all fields', 'error');
+    } else {
+      signup({
+        firstName,
+        lastName,
+        email,
+        password,
+        userType,
+        address,
+      });
+    }
   };
 
   return (
@@ -164,14 +208,13 @@ export default function SignUp() {
                   }}
                 >
                   <option aria-label='None' value='' />
-                  <option value={0}>Customer</option>
-                  <option value={1}>Chef</option>
-                  <option value={2}>Delivery</option>
-                  <option value={3}>Manager</option>
+                  <option value='customer'>Customer</option>
+                  <option value='chef'>Chef</option>
+                  <option value='delivery'>Delivery</option>
+                  <option value='manager'>Manager</option>
                 </Select>
               </FormControl>
             </Grid>
-
             <Grid item xs={12}>
               <TextField
                 variant='outlined'
@@ -252,6 +295,21 @@ export default function SignUp() {
                 />
               </FormControl>
             </Grid>
+            {userType === 'customer' && (
+              <Grid item xs={12}>
+                <TextField
+                  variant='outlined'
+                  type='address'
+                  required
+                  fullWidth
+                  id='address'
+                  label='Address'
+                  name='address'
+                  autoComplete='address'
+                  onInput={handleInput}
+                />
+              </Grid>
+            )}
           </Grid>
           <Button
             type='submit'
