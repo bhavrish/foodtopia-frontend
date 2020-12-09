@@ -18,7 +18,7 @@ import {
   ChefListItems,
   ChefDashboard,
   Orders,
-  Receipts,
+  Recipes,
   ChefDiscussion,
 } from './layouts/Chef';
 import {
@@ -107,7 +107,7 @@ function ChefLayout() {
     <Switch>
       <Redirect exact from='/chef' to='/chef/dashboard' />
       <Route path='/chef/dashboard' exact component={ChefDashboard} />
-      <Route path='/chef/recipes' exact component={Receipts} />
+      <Route path='/chef/recipes' exact component={Recipes} />
       <Route path='/chef/orders' exact component={Orders} />
       <Route path='/chef/discussion' exact component={ChefDiscussion} />
     </Switch>
