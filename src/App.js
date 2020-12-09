@@ -6,6 +6,7 @@ import {
   CustDashboard,
   Cart,
   CustDiscussion,
+  CustReviews,
 } from './layouts/Customer';
 import {
   ManagListItems,
@@ -80,6 +81,7 @@ function CustomerLayout() {
     <Switch>
       <Redirect exact from='/customer' to='/customer/dashboard' />
       <Route path='/customer/dashboard' exact component={CustDashboard} />
+      <Route path='/customer/reviews' exact component={CustReviews} />
       <Route path='/customer/cart' exact component={Cart} />
       <Route path='/customer/discussion' exact component={CustDiscussion} />
     </Switch>
