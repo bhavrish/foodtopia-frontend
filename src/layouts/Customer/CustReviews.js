@@ -3,8 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import {ReviewCard} from '../../components';
 
-import ReviewsContext from '../../context/reviews/reviewsContext';
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,15 +20,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CustReviews(props) {
     const classes = useStyles();
-
-    const reviewsContext = useContext(ReviewsContext);
-
-    const { reviews, getReviews } = reviewsContext;
-
-    useEffect(() => {
-        getReviews();
-
-    }, []);
 
     function FormCol() {
         return (
