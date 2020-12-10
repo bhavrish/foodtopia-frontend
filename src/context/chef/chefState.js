@@ -72,21 +72,12 @@ const ChefState = (props) => {
     try {
 
       const res = await axios.get(
-        `http://localhost:5000/api/reviews/`
+        'http://localhost:5000/api/reviews?reviewTo=chefID'
       );
-
-      const reviews = [];
-      for (const reviewId of res.data) {
-          const review = await axios.get(
-            `http://localhost:5000/api/reviews/${reviewId}`
-          );
-
-          if(review.reviewTo === chefID){ reviews.push(review.data);}
-      }
 
       dispatch({
         type: GET_REVIEWS,
-        payload: reviews,
+        payload: res.data,
       });
     } catch (error){
       console.log(error);
