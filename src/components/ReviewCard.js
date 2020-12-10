@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ManagerContext from '../context/manager/managerContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +28,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ReviewCard(props) {
   const classes = useStyles();
+
+  const managerContext = useContext(ManagerContext);
+  const { approveReview, dismissReview } = managerContext;
+
+  const onApprove = () => {
+    approveReview(props.id);
+  };
+
+  const onDismiss = () => {
+    dismissReview(props.id);
+  };
 
   return (
     <Card className={classes.root}>
@@ -58,8 +70,8 @@ export default function ReviewCard(props) {
           <Rating name="review-rating" value={props.rating} readOnly />
         </Box>
         <Box display="flex" justifyContent="flex-end">
-            <Button className={classes.green} size="small" minWidth='50px'>Valid</Button>
-            <Button className={classes.red} size="small" minWidth='50px'>Invalid</Button>
+            <Button className={classes.green} size="small" minWidth='50px' onClick={onApprove}>Valid</Button>
+            <Button className={classes.red} size="small" minWidth='50px' onClick={onDismiss}>Invalid</Button>
         </Box>
       </CardContent>
     </Card>

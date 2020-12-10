@@ -34,7 +34,7 @@ export default function ApproveCard(props) {
   const classes = useStyles();
 
   const managerContext = useContext(ManagerContext);
-  const { hireEmployee, declineEmployee, approveCustomer, declineCustomer, banCustomer } = managerContext;
+  const { hireEmployee, declineEmployee, approveCustomer, declineCustomer, banCustomer, banEmployee } = managerContext;
 
   const onApprove = () => {
     if (props.type === "chef" || props.type === "delivery")
@@ -52,7 +52,7 @@ export default function ApproveCard(props) {
 
   const onBan = () => {
     if (props.type === "chef" || props.type === "delivery")
-      declineEmployee(props.id);
+      banEmployee(props.id);
     else if (props.type === "customer")
       banCustomer(props.id);
   };

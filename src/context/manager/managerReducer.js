@@ -1,4 +1,4 @@
-import { GET_PENDING_CUSTOMERS, GET_PENDING_EMPLOYEES, GET_REVIEWS, CUSTOMER_SUCCESS, EMPLOYEE_SUCCESS, API_ERROR, CLEAR_ERRORS } from '../types';
+import { GET_PENDING_CUSTOMERS, GET_PENDING_EMPLOYEES, GET_REVIEWS, CUSTOMER_SUCCESS, EMPLOYEE_SUCCESS, REVIEW_SUCCESS, API_ERROR, CLEAR_ERRORS } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -37,6 +37,15 @@ export default (state, action) => {
         ...state,
         employees: state.employees.filter(
           employee => employee._id !== action.payload
+        ),
+        loading: false
+      };
+
+    case REVIEW_SUCCESS:
+      return {
+        ...state,
+        reviews: state.reviews.filter(
+          review => review._id !== action.payload
         ),
         loading: false
       };

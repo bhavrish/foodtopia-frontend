@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import ManagerContext from './managerContext';
 import ManagerReducer from './managerReducer';
-import { GET_PENDING_CUSTOMERS, GET_PENDING_EMPLOYEES, GET_REVIEWS, CUSTOMER_SUCCESS, EMPLOYEE_SUCCESS, API_ERROR, CLEAR_ERRORS } from '../types';
+import { GET_PENDING_CUSTOMERS, GET_PENDING_EMPLOYEES, GET_REVIEWS, CUSTOMER_SUCCESS, EMPLOYEE_SUCCESS, REVIEW_SUCCESS, API_ERROR, CLEAR_ERRORS } from '../types';
 
 const ManagerState = (props) => {
   const initialState = {
@@ -255,8 +255,8 @@ const ManagerState = (props) => {
     };
 
     try {
-      const customerObj = await axios.get(`http://localhost:5000/api/customers/${customerID}`);
-      const email = customerObj.data.email;
+      const employeeObj = await axios.get(`http://localhost:5000/api/employees/${employeeID}`);
+      const email = employeeObj.data.email;
 
       const res = await axios.post(
         `http://localhost:5000/api/blacklist`,
@@ -267,13 +267,75 @@ const ManagerState = (props) => {
       );
 
       const res2 = await axios.delete(
-        `http://localhost:5000/api/customers/${customerID}`,
+        `http://localhost:5000/api/employees/${employeeID}`,
         config
       );
 
       dispatch({
-        type: CUSTOMER_SUCCESS,
-        payload: customerID,
+        type: EMPLOYEE_SUCCESS,
+        payload: employeeID,
+      });
+    } catch (error) {
+      // if server side crashes than axios request will fail and error.response will be undefined
+      // so we shouldn't pass erroor.respoonse.data as property data of undefined cannot be called
+      const errMsg =
+        error.message === 'Network Error'
+          ? 'Server Error'
+          : error.response.data.msg;
+
+      dispatch({
+        type: API_ERROR,
+        payload: errMsg,
+      });
+    }
+  };
+
+  // approve review
+  const approveReview = async reviewID => {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/api/manager/reviewWithMerit/${reviewID}`,
+        config
+      );
+
+      dispatch({
+        type: REVIEW_SUCCESS,
+        payload: reviewID,
+      });
+    } catch (error) {
+      // if server side crashes than axios request will fail and error.response will be undefined
+      // so we shouldn't pass erroor.respoonse.data as property data of undefined cannot be called
+      const errMsg =
+        error.message === 'Network Error'
+          ? 'Server Error'
+          : error.response.data.msg;
+
+      dispatch({
+        type: API_ERROR,
+        payload: errMsg,
+      });
+    }
+  };
+
+  // dismiss review
+  const dismissReview = async reviewID => {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/api/manager/reviewWithoutMerit/${reviewID}`,
+        config
+      );
+
+      dispatch({
+        type: REVIEW_SUCCESS,
+        payload: reviewID,
       });
     } catch (error) {
       // if server side crashes than axios request will fail and error.response will be undefined
@@ -309,6 +371,9 @@ const ManagerState = (props) => {
         declineCustomer,
         declineEmployee,
         banCustomer,
+        banEmployee,
+        approveReview,
+        dismissReview,
         clearErrors,
       }}
     >
