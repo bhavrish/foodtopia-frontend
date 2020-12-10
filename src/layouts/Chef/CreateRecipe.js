@@ -10,6 +10,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { DropzoneArea } from 'material-ui-dropzone';
 
+
+
 import ChefContext from '../../context/chef/chefContext';
 import AuthContext from '../../context/auth/authContext';
 
@@ -153,7 +155,6 @@ const CreateRecipe = () => {
             label='Price'
             onChange={onChange}
           />
-
           <DropzoneArea name='image' onChange={uploadImage} />
         </DialogContent>
         <DialogActions>

@@ -2,11 +2,12 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import ChefContext from './chefContext';
 import ChefReducer from './chefReducer';
-import { GET_RECIPES, CREATE_RECIPE } from '../types';
+import { GET_RECIPES, CREATE_RECIPE, GET_REVIEWS, DISPUTE_REVIEW } from '../types';
 
 const ChefState = (props) => {
   const initialState = {
     recipes: [],
+    reviews: [],
     error: null,
   };
 
@@ -66,13 +67,60 @@ const ChefState = (props) => {
     }
   };
 
+  // get reviews
+  const getReviews = async (chefID) => {
+    try {
+
+      const res = await axios.get(
+        `http://localhost:5000/api/reviews/`
+      );
+
+      const reviews = [];
+      for (const reviewId of res.data) {
+          const review = await axios.get(
+            `http://localhost:5000/api/reviews/${reviewId}`
+          );
+
+          if(review.reviewTo === chefID){ reviews.push(review.data);}
+      }
+
+      dispatch({
+        type: GET_REVIEWS,
+        payload: reviews,
+      });
+    } catch (error){
+      console.log(error);
+    }
+  };
+
+  const disputeReview = async (reviewID) => {
+    try{
+      const review = await axios.patch('http://localhost:5000/api/reviews/needToHandle/${reviewID}');
+      
+      review.needToBeHandled = true;
+
+      dispatch({
+        type: DISPUTE_REVIEW,
+        payload: {
+          reviews: review.data,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+
   return (
     <ChefContext.Provider
       value={{
         recipes: state.recipes,
+        reviews: state.reviews,
         error: state.error,
         getRecipes,
         createRecipe,
+        getReviews,
+        disputeReview,
       }}
     >
       {props.children}

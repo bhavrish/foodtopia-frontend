@@ -52,7 +52,7 @@ const CustomerState = (props) => {
             `http://localhost:5000/api/reviews/${reviewId}`
           );
 
-          if(review.reviewTo == customerID){ reviews.push(review.data);}
+          if(review.reviewTo === customerID){ reviews.push(review.data);}
       }
 
       dispatch({
@@ -104,12 +104,14 @@ const CustomerState = (props) => {
 
   const disputeReview = async (reviewID) => {
     try{
-      const res = await axios.patch('http://localhost:5000/api/reviews/needToHandle/${reviewID}');
+      const review = await axios.patch('http://localhost:5000/api/reviews/needToHandle/${reviewID}');
+
+      review.needToBeHandled = true;
 
       dispatch({
-        type: POST_REVIEW,
+        type: DISPUTE_REVIEW,
         payload: {
-          reviews: res.data,
+          reviews: review.data,
         },
       });
     } catch (error) {
