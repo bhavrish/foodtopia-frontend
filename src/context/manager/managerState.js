@@ -206,6 +206,90 @@ const ManagerState = (props) => {
     }
   };
 
+  // ban customer
+  const banCustomer = async customerID => {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    try {
+      const customerObj = await axios.get(`http://localhost:5000/api/customers/${customerID}`);
+      const email = customerObj.data.email;
+
+      const res = await axios.post(
+        `http://localhost:5000/api/blacklist`,
+        {
+            email,
+        },
+        config
+      );
+
+      const res2 = await axios.delete(
+        `http://localhost:5000/api/customers/${customerID}`,
+        config
+      );
+
+      dispatch({
+        type: CUSTOMER_SUCCESS,
+        payload: customerID,
+      });
+    } catch (error) {
+      // if server side crashes than axios request will fail and error.response will be undefined
+      // so we shouldn't pass erroor.respoonse.data as property data of undefined cannot be called
+      const errMsg =
+        error.message === 'Network Error'
+          ? 'Server Error'
+          : error.response.data.msg;
+
+      dispatch({
+        type: API_ERROR,
+        payload: errMsg,
+      });
+    }
+  };
+
+  // ban employee
+  const banEmployee = async employeeID => {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    try {
+      const customerObj = await axios.get(`http://localhost:5000/api/customers/${customerID}`);
+      const email = customerObj.data.email;
+
+      const res = await axios.post(
+        `http://localhost:5000/api/blacklist`,
+        {
+            email,
+        },
+        config
+      );
+
+      const res2 = await axios.delete(
+        `http://localhost:5000/api/customers/${customerID}`,
+        config
+      );
+
+      dispatch({
+        type: CUSTOMER_SUCCESS,
+        payload: customerID,
+      });
+    } catch (error) {
+      // if server side crashes than axios request will fail and error.response will be undefined
+      // so we shouldn't pass erroor.respoonse.data as property data of undefined cannot be called
+      const errMsg =
+        error.message === 'Network Error'
+          ? 'Server Error'
+          : error.response.data.msg;
+
+      dispatch({
+        type: API_ERROR,
+        payload: errMsg,
+      });
+    }
+  };
+
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
@@ -224,6 +308,7 @@ const ManagerState = (props) => {
         hireEmployee,
         declineCustomer,
         declineEmployee,
+        banCustomer,
         clearErrors,
       }}
     >

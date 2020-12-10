@@ -34,7 +34,7 @@ export default function ApproveCard(props) {
   const classes = useStyles();
 
   const managerContext = useContext(ManagerContext);
-  const { hireEmployee, declineEmployee, approveCustomer, declineCustomer } = managerContext;
+  const { hireEmployee, declineEmployee, approveCustomer, declineCustomer, banCustomer } = managerContext;
 
   const onApprove = () => {
     if (props.type === "chef" || props.type === "delivery")
@@ -48,6 +48,13 @@ export default function ApproveCard(props) {
       declineEmployee(props.id);
     else if (props.type === "customer")
       declineCustomer(props.id);
+  };
+
+  const onBan = () => {
+    if (props.type === "chef" || props.type === "delivery")
+      declineEmployee(props.id);
+    else if (props.type === "customer")
+      banCustomer(props.id);
   };
 
   return (
@@ -75,7 +82,7 @@ export default function ApproveCard(props) {
         <Box display="flex" justifyContent="flex-end">
           <Button className={classes.green} size="small" onClick={onApprove}>Approve</Button>
           <Button className={classes.primary} size="small" onClick={onDecline}>Decline</Button>
-          <Button className={classes.red} size="small">Ban</Button>
+          <Button className={classes.red} size="small" onClick={onBan}>Ban</Button>
         </Box>
       </CardContent>
     </Card>
