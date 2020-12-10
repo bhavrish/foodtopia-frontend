@@ -40,27 +40,30 @@ import Alerts from './components/Alerts';
 import AlertState from './context/alerts/alertState';
 import AuthState from './context/auth/authState';
 import MenuItemsState from './context/menuItems/menuItemsState';
+import CustomerState from './context/customer/customerState';
 
 export default function App() {
   return (
     <MenuItemsState>
       <AuthState>
-        <AlertState>
-          <Router>
-            <div className='App'>
-              <Alerts />
-              <Switch>
-                <Route path='/delivery' component={DeliveryLayout} />
-                <Route path='/chef' component={ChefLayout} />
-                <Route path='/manager' component={ManagerLayout} />
-                <Route path='/customer' component={CustomerLayout} />
-                <Route path='/auth' component={AuthLayout} />
-                <Route path='/menus' component={Menus} />
-                <Route path='/' component={Home} />
-              </Switch>
-            </div>
-          </Router>
-        </AlertState>
+        <CustomerState>
+          <AlertState>
+            <Router>
+              <div className='App'>
+                <Alerts />
+                <Switch>
+                  <Route path='/delivery' component={DeliveryLayout} />
+                  <Route path='/chef' component={ChefLayout} />
+                  <Route path='/manager' component={ManagerLayout} />
+                  <Route path='/customer' component={CustomerLayout} />
+                  <Route path='/auth' component={AuthLayout} />
+                  <Route path='/menus' component={Menus} />
+                  <Route path='/' component={Home} />
+                </Switch>
+              </div>
+            </Router>
+          </AlertState>
+        </CustomerState>
       </AuthState>
     </MenuItemsState>
   );
