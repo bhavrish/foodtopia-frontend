@@ -20,6 +20,16 @@ const CreateRecipe = () => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
+  const [recipe, setRecipe] = useState({
+    title: '',
+    chefName: '',
+    description: '',
+    ingredients: '',
+    dietaryRestrictions: '',
+    type: '',
+    price: 0,
+  });
+  const [image, setImage] = useState(undefined);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -27,7 +37,17 @@ const CreateRecipe = () => {
 
   const handleClose = () => {
     setOpen(false);
+    console.log(recipe);
+    console.log(image);
   };
+
+  const onChange = (e) =>
+    setRecipe({ ...recipe, [e.target.name]: e.target.value });
+
+  const uploadImage = (image) => {
+    setImage(image);
+  };
+
   return (
     <div>
       <Fab
@@ -53,6 +73,7 @@ const CreateRecipe = () => {
             id='title'
             name='title'
             label='Title'
+            onChange={onChange}
           />
           <TextField
             variant='outlined'
@@ -62,6 +83,7 @@ const CreateRecipe = () => {
             id='chefName'
             name='chefName'
             label='Chef Name'
+            onChange={onChange}
           />
           <TextField
             variant='outlined'
@@ -72,6 +94,7 @@ const CreateRecipe = () => {
             id='description'
             name='description'
             label='Description'
+            onChange={onChange}
           />
           <TextField
             variant='outlined'
@@ -82,6 +105,7 @@ const CreateRecipe = () => {
             name='ingredients'
             label='Ingredients'
             placeholder='Ex: eggs, cheese, milk'
+            onChange={onChange}
           />
           <TextField
             variant='outlined'
@@ -92,6 +116,7 @@ const CreateRecipe = () => {
             name='dietaryRestrictions'
             label='Dietary Restrictions'
             placeholder='Ex: eggs, cheese, milk'
+            onChange={onChange}
           />
           <TextField
             variant='outlined'
@@ -102,6 +127,7 @@ const CreateRecipe = () => {
             name='type'
             label='Type'
             placeholder='food or drink'
+            onChange={onChange}
           />
           <TextField
             variant='outlined'
@@ -111,8 +137,9 @@ const CreateRecipe = () => {
             id='price'
             name='price'
             label='Price'
+            onChange={onChange}
           />
-          <DropzoneArea />
+          <DropzoneArea onChange={uploadImage} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color='primary'>
