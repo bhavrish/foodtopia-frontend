@@ -1,10 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
+
 import { Nav, DishCard } from '../components';
 
 import MenuItemsContext from '../context/menuItems/menuItemsContext';
@@ -21,9 +19,11 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     flex: 1,
+    padding: theme.spacing(1.5),
+    marginTop: theme.spacing(2),
   },
-  iconButton: {
-    padding: 10,
+  inputFocused: {
+    border: '2px solid theme.palette.primary.main',
   },
   paper: {
     padding: theme.spacing(1),
@@ -39,43 +39,76 @@ export default function Menus() {
   const classes = useStyles();
 
   const menuItemsContext = useContext(MenuItemsContext);
+  const text = useRef('');
 
-  const { menuItems, getMenuItems } = menuItemsContext;
+  const {
+    menuItems,
+    getMenuItems,
+    searchMenuItems,
+    filtered,
+    clearSearch,
+  } = menuItemsContext;
 
   useEffect(() => {
     getMenuItems();
 
+    if (filtered === null) {
+      text.current.value = '';
+    }
     // eslint-disable-next-line
   }, []);
+
+  const onChange = (e) => {
+    if (text.current.value !== '') {
+      console.log(e.target.value);
+      searchMenuItems(e.target.value);
+    } else {
+      clearSearch();
+    }
+  };
 
   return (
     <div>
       <Nav />
-      <Paper component="form" className={classes.SearchContainer}>
-        <InputBase
+      <Paper elevation={0} component='form' className={classes.SearchContainer}>
+        <input
           className={classes.input}
-          placeholder="Search Menus"
-          name="food"
+          classes={{ focused: classes.inputFocused }}
+          variant='outlined'
+          placeholder='Search Menu...'
+          ref={text}
+          type='text'
+          onChange={onChange}
         />
-        <IconButton type="submit" className={classes.iconButton} aria-label="search">
-          <SearchIcon />
-        </IconButton>
       </Paper>
       <div className={classes.appBarSpacer} />
       <Grid container spacing={2} style={{ margin: 0, width: '100%' }}>
         <Grid container item xs={12} spacing={3}>
-          {menuItems.map((menuItem) => (
-            <Grid key={menuItem._id} item xs={4}>
-              <DishCard
-                imageSrc={`http://localhost:5000/api/menuItems/images/${menuItem.image}`}
-                title={menuItem.title}
-                price={menuItem.price}
-                rate={menuItem.starRating}
-                chefName={menuItem.chefName}
-                description={menuItem.description}
-              />
-            </Grid>
-          ))}
+          {filtered !== null
+            ? filtered.map((menuItem) => (
+                <Grid key={menuItem._id} item xs={4}>
+                  <DishCard
+                    imageSrc={`http://localhost:5000/api/menuItems/images/${menuItem.image}`}
+                    title={menuItem.title}
+                    price={menuItem.price}
+                    rate={menuItem.starRating}
+                    chefName={menuItem.chefName}
+                    description={menuItem.description}
+                  />
+                </Grid>
+              ))
+            : menuItems.map((menuItem) => (
+                <Grid key={menuItem._id} item xs={4}>
+                  <DishCard
+                    imageSrc={`http://localhost:5000/api/menuItems/images/${menuItem.image}`}
+                    title={menuItem.title}
+                    price={menuItem.price}
+                    rate={menuItem.starRating}
+                    chefName={menuItem.chefName}
+                    description={menuItem.description}
+                  />
+                </Grid>
+              ))}
         </Grid>
       </Grid>
     </div>

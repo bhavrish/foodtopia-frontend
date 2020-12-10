@@ -3,6 +3,8 @@ import {
   GET_MENUITEMS_ERROR,
   CLEAR_ERRORS,
   SPECIAL_DISHES,
+  SEARCH_MENUITEMS,
+  CLEAR_SEARCH,
 } from '../types';
 
 export default (state, action) => {
@@ -26,6 +28,21 @@ export default (state, action) => {
         specialDishes: state.menuItems.filter(
           (menuItem) => menuItem.specialItem
         ),
+      };
+
+    case SEARCH_MENUITEMS:
+      return {
+        ...state,
+        filtered: state.menuItems.filter((menuItem) => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          return menuItem.title.match(regex);
+        }),
+      };
+
+    case CLEAR_SEARCH:
+      return {
+        ...state,
+        filtered: null,
       };
 
     case CLEAR_ERRORS:
