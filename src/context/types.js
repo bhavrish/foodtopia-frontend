@@ -25,3 +25,7 @@ export const API_ERROR = 'API_ERROR';
 
 export const RECOMMENDED_DISHES = 'RECOMMENDED_DISHES';
 export const SPECIAL_DISHES = 'SPECIAL_DISHES';
+export const POST_REVIEW = 'POST_REVIEW';
+export const DISPUTE_REVIEW = 'DISPUTE_REVIEW';
+export const DELETE_REVIEW = 'DELETE_REVIEW';
+

@@ -8,7 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import ManagerContext from '../context/manager/managerContext';
+
+import CustomerContext from '../context/customer/customerContext';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,25 +21,18 @@ const useStyles = makeStyles((theme) => ({
   red: {
     background: theme.palette.buttonColor1.main,
     marginRight: theme.spacing(2)
-  },
-  green: {
-    background: theme.palette.buttonColor2.main,
-    marginRight: theme.spacing(2)
   }
 }));
 
-export default function ReviewCard(props) {
+export default function ReviewCard2(props) {
   const classes = useStyles();
 
-  const managerContext = useContext(ManagerContext);
-  const { approveReview, dismissReview } = managerContext;
+  const customerContext = useContext(CustomerContext);
+  const { disputeReview } = customerContext;
 
-  const onApprove = () => {
-    approveReview(props.id);
-  };
 
-  const onDismiss = () => {
-    dismissReview(props.id);
+  const onDispute = () => {
+    disputeReview(props.id);
   };
 
   return (
@@ -46,18 +41,7 @@ export default function ReviewCard(props) {
         <Typography gutterBottom variant="h5" component="h2">
           {props.reviewType}
         </Typography>
-        <Typography variant="h7" component="h6">
-          Review To
-        </Typography>
-        <Typography gutterBottom variant="h7" component="h4">
-          {props.reviewTo} ({props.reviewToType})
-        </Typography>
-        <Typography variant="h7" component="h6">
-          Review From
-        </Typography>
-        <Typography gutterBottom variant="h7" component="h4">
-          {props.reviewFrom} ({props.reviewFromType})
-        </Typography>
+
         <Typography variant="h7" component="h6">
           Review
         </Typography>
@@ -70,9 +54,9 @@ export default function ReviewCard(props) {
           <Rating name="review-rating" value={props.rating} readOnly />
         </Box>
         <Box display="flex" justifyContent="flex-end">
-            <Button className={classes.green} size="small" minWidth='50px' onClick={onApprove}>Valid</Button>
-            <Button className={classes.red} size="small" minWidth='50px' onClick={onDismiss}>Invalid</Button>
+            <Button className={classes.red} size="small" minWidth='50px' onClick={onDispute}>Dispute</Button>
         </Box>
+
       </CardContent>
     </Card>
   );

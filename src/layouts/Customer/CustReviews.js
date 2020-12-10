@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import {ReviewCard} from '../../components';
+import {ReviewCard2} from '../../components';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -18,7 +18,7 @@ import Rating from '@material-ui/lab/Rating';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-import ReviewsContext from '../../context/reviews/reviewsContext';
+import CustomerContext from '../../context/customer/customerContext';
 import AuthContext from '../../context/auth/authContext';
 
 
@@ -46,11 +46,11 @@ export default function CustReviews(props) {
       starRating: 5,
       type: '',
     });*/
-    const reviewsContext = useContext(ReviewsContext);
+    const customerContext = useContext(CustomerContext);
     const authContext = useContext(AuthContext);
 
     const { user } = authContext;
-    const { getReviews, reviews } = reviewsContext;
+    const { reviews, getReviews } = customerContext;
 
     useEffect(() => {
       if (user) {
@@ -60,28 +60,6 @@ export default function CustReviews(props) {
       // eslint-disable-next-line
     }, [user]);
 
-    /*function FormCol() {
-        return (
-            <React.Fragment>
-              {reviews.map((review) => (
-                <Grid key = {review._id} item xs={4}>
-                  <ReviewCard
-                    review={review.review}
-                    reviewFrom={review.reviewFrom}
-                    type={review.type}
-                    rating={review.rating}
-                  />
-                </Grid>
-              ))}
-                <Grid item xs={4}>
-                    <ReviewCard />
-                </Grid>
-                <Grid item xs={4}>
-                    <ReviewCard />
-                </Grid>
-            </React.Fragment>
-        );
-    }*/
     const [open, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [value, setValue] = React.useState(2);
@@ -173,41 +151,20 @@ export default function CustReviews(props) {
           <Grid container direction='column' item xs={6} spacing={5}>
             {reviews.map((review) => (
                 <Grid key = {review._id} item xs={4}>
-                  <ReviewCard
-                    review={review.review}
+                  <ReviewCard2
+                    id={review._id}
+                    reviewType={review.type}
+                    reviewTo={review.reviewTo}
+                    reviewToType={review.reviewToType}
                     reviewFrom={review.reviewFrom}
-                    type={review.type}
-                    rating={review.rating}
+                    reviewFromType={review.reviewFromType}
+                    reviewMessage={review.review}
+                    rating={review.starRating}
                   />
                 </Grid>
             ))}        
           </Grid>
-      
         </Grid>
       </div>
-
     );
-    
 }
-/*
-        return (
-            <div>
-            <div className={classes.appBarSpacer} />
-            <Grid container spacing={2} style={{ margin: 0, width: '100%' }}>
-                <Grid container item xs={12} spacing={3}>
-                {reviews.map((review) => (
-                    <Grid key={review._id} item xs={4}>
-                    <ReviewCard
-                        src={`http://localhost:5000/api/reviews/`}
-                        type={review.type}
-                        reviewFrom={review.reviewFrom}
-                        reviewTo={review.reviewTo}
-                        review={review.review}
-                    />
-                    </Grid>
-                ))}
-                </Grid>
-            </Grid>
-            </div>
-        );
-        */
