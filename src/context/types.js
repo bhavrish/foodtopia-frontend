@@ -29,3 +29,5 @@ export const POST_REVIEW = 'POST_REVIEW';
 export const DISPUTE_REVIEW = 'DISPUTE_REVIEW';
 export const DELETE_REVIEW = 'DELETE_REVIEW';
 
+export const GET_RECIPES = 'GET_RECIPES';
+export const CREATE_RECIPE = 'CREATE_RECIPE';
