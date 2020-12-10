@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import ChefContext from './chefContext';
 import ChefReducer from './chefReducer';
-import { GET_RECIPES, CREATE_RECIPE, GET_ORDERS } from '../types';
+import { GET_RECIPES, CREATE_RECIPE, GET_ORDERS, COOK_SUCCESS } from '../types';
 
 const ChefState = (props) => {
   const initialState = {
@@ -98,17 +98,26 @@ const ChefState = (props) => {
     }
   };
 
-  const createOrders = async (chefID) => {
+  const cookOrder = async (orderData) => {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+    const orderID = orderData.orderID;
+    const chefID = orderData.chefID;
+    console.log(orderID);
+    console.log(chefID);
     try {
-      console.log(chefID);
-      const res = await axios.get(
-        `http://localhost:5000/api/menuItems?chefID=${chefID}`
+      const res = await axios.patch(
+        `http://localhost:5000/api/orders/cook/${orderID}`,
+        {
+          chefID,
+        },
+        config
       );
 
-      console.log(res.data);
       dispatch({
-        type: GET_RECIPES,
-        payload: res.data,
+        type: COOK_SUCCESS,
+        payload: orderID,
       });
     } catch (error) {
       console.log(error.response.data.msg);
@@ -124,6 +133,7 @@ const ChefState = (props) => {
         getRecipes,
         createRecipe,
         getOrders,
+        cookOrder,
       }}
     >
       {props.children}

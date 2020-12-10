@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -8,6 +8,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import DoneIcon from '@material-ui/icons/Done';
+import AuthContext from '../context/auth/authContext';
+import ChefContext from '../context/chef/chefContext';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -34,6 +36,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TaskCard(props) {
   const classes = useStyles();
+  
+  const authContext = useContext(AuthContext);
+  const { user } = authContext;
+
+  const chefContext = useContext(ChefContext);
+  const { cookOrder } = chefContext;
+
+
+  const onDone = () => {
+    if (user) {
+      cookOrder({
+        chefID: user._id,
+        orderID: props.id,
+      });
+    }
+  };
 
   return (
     <Card>
@@ -65,7 +83,7 @@ export default function TaskCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.button}>
-        <Button variant="contained" size="small" color="primary">
+        <Button variant="contained" size="small" color="primary" onClick={onDone}>
           Cook
           <DoneIcon/>
         </Button>
