@@ -13,3 +13,9 @@ export const CLEAR_MSG = 'CLEAR_MSG';
 export const SERVER_ERROR = 'SERVER_ERROR';
 export const GET_MENUITEMS = 'GET_MENUITEMS';
 export const GET_MENUITEMS_ERROR = 'GET_MENUITEMS_ERROR';
+export const GET_REVIEWS = 'GET_REVIEWS';
+export const POST_REVIEW = 'POST_REVIEW';
+export const DELETE_REVIEW = 'DELETE_REVIEW';
+
+
+

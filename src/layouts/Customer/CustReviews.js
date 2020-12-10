@@ -14,6 +14,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import Rating from '@material-ui/lab/Rating';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
+import ReviewsContext from '../../context/reviews/reviewsContext';
+import AuthContext from '../../context/auth/authContext';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,12 +39,40 @@ const useStyles = makeStyles((theme) => ({
 export default function CustReviews(props) {
     const classes = useStyles();
 
-    function FormCol() {
+    /*const [review, setReview] = useState({
+      review: '',
+      reviewFrom: '',
+      reviewTo: '',
+      starRating: 5,
+      type: '',
+    });*/
+    const reviewsContext = useContext(ReviewsContext);
+    const authContext = useContext(AuthContext);
+
+    const { user } = authContext;
+    const { getReviews, reviews } = reviewsContext;
+
+    useEffect(() => {
+      if (user) {
+        getReviews(user._id);
+        //postReview();
+      }
+      // eslint-disable-next-line
+    }, [user]);
+
+    /*function FormCol() {
         return (
             <React.Fragment>
-                <Grid item xs={4}>
-                    <ReviewCard />
+              {reviews.map((review) => (
+                <Grid key = {review._id} item xs={4}>
+                  <ReviewCard
+                    review={review.review}
+                    reviewFrom={review.reviewFrom}
+                    type={review.type}
+                    rating={review.rating}
+                  />
                 </Grid>
+              ))}
                 <Grid item xs={4}>
                     <ReviewCard />
                 </Grid>
@@ -46,9 +81,10 @@ export default function CustReviews(props) {
                 </Grid>
             </React.Fragment>
         );
-    }
+    }*/
     const [open, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [value, setValue] = React.useState(2);
   
     const handleClickOpen = () => {
       setOpen(true);
@@ -56,12 +92,15 @@ export default function CustReviews(props) {
   
     const handleClose = () => {
       setOpen(false);
-      setAnchorEl(null);
     };
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
       };
+
+    const handleClose2 = () => {
+        setAnchorEl(null);
+    };
 
   
     return (
@@ -84,12 +123,13 @@ export default function CustReviews(props) {
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
-                onClose={handleClose}
+                onClose={handleClose2}
             >
-                <MenuItem onClick={handleClose}>Compliment</MenuItem>
-                <MenuItem onClick={handleClose}>Complaint</MenuItem>
+                <MenuItem onClick={handleClose2}>Compliment</MenuItem>
+                <MenuItem onClick={handleClose2}>Complaint</MenuItem>
             </Menu>
             <TextField
+              variant="outlined"
               autoFocus
               margin="dense"
               id="name"
@@ -98,6 +138,7 @@ export default function CustReviews(props) {
               fullWidth
             />
             <TextField
+              variant="outlined"
               autoFocus
               margin="dense"
               multiline
@@ -106,6 +147,17 @@ export default function CustReviews(props) {
               type="email"
               fullWidth
             />
+
+          <Box component="fieldset" mb={3} borderColor="transparent">
+            <Rating
+              name="simple-controlled"
+              value={value}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+            />
+          </Box>
+
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
@@ -118,15 +170,44 @@ export default function CustReviews(props) {
         </Dialog>
         <div></div>
         <Grid container spacing={3}>
-        <Grid container direction='column' item xs={6} spacing={5}>
-            <FormCol />
-        </Grid>
-        <Grid container item direction='column' xs={6} spacing={5}>
-            <FormCol />
-        </Grid>
+          <Grid container direction='column' item xs={6} spacing={5}>
+            {reviews.map((review) => (
+                <Grid key = {review._id} item xs={4}>
+                  <ReviewCard
+                    review={review.review}
+                    reviewFrom={review.reviewFrom}
+                    type={review.type}
+                    rating={review.rating}
+                  />
+                </Grid>
+            ))}        
+          </Grid>
+      
         </Grid>
       </div>
 
     );
     
 }
+/*
+        return (
+            <div>
+            <div className={classes.appBarSpacer} />
+            <Grid container spacing={2} style={{ margin: 0, width: '100%' }}>
+                <Grid container item xs={12} spacing={3}>
+                {reviews.map((review) => (
+                    <Grid key={review._id} item xs={4}>
+                    <ReviewCard
+                        src={`http://localhost:5000/api/reviews/`}
+                        type={review.type}
+                        reviewFrom={review.reviewFrom}
+                        reviewTo={review.reviewTo}
+                        review={review.review}
+                    />
+                    </Grid>
+                ))}
+                </Grid>
+            </Grid>
+            </div>
+        );
+        */

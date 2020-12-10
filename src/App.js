@@ -40,11 +40,13 @@ import Alerts from './components/Alerts';
 import AlertState from './context/alerts/alertState';
 import AuthState from './context/auth/authState';
 import MenuItemsState from './context/menuItems/menuItemsState';
+import ReviewsState from './context/reviews/reviewsState';
 
 export default function App() {
   return (
     <MenuItemsState>
       <AuthState>
+        <ReviewsState>
         <AlertState>
           <Router>
             <div className='App'>
@@ -61,6 +63,7 @@ export default function App() {
             </div>
           </Router>
         </AlertState>
+        </ReviewsState>
       </AuthState>
     </MenuItemsState>
   );
