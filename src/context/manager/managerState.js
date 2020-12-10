@@ -60,10 +60,10 @@ const ManagerState = (props) => {
     }
   };
 
-  // get reviews
+  // get pending reviews
   const getReviews = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/reviews');
+      const res = await axios.get('http://localhost:5000/api/manager/reviews/pending');
 
       dispatch({
         type: GET_REVIEWS,
