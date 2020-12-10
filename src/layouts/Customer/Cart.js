@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { CartCard } from '../../components';
@@ -7,6 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+
+import CustomerContext from '../../context/customer/customerContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,37 +27,24 @@ const useStyles = makeStyles((theme) => ({
 export default function Cart(props) {
   const classes = useStyles();
 
+  const customerContext = useContext(CustomerContext);
+  const { itemsInCart } = customerContext;
+
   return (
     <div className={classes.root}>
       <Grid container spacing={2}>
         <Grid item xs={8} spacing={2}>
-          <Grid item xs={12} className={classes.card}>
-            <CartCard
-              imageSrc={`http://localhost:5000/api/menuItems/images/9c274b8b6f59da73d6c973195919748f.jpeg`}
-              title='Avacado Breakfast Bowl'
-              price='8.79'
-              chefName='Steve Rogers'
-              description='Heart health and protein in a bowl! This recipe is an unexpected kick of flavor with egg, red quinoa, avocado, and feta cheese! Very easy to make and a delicious start to the day'
-            />
-          </Grid>
-          <Grid item xs={12} className={classes.card}>
-            <CartCard
-              imageSrc={`http://localhost:5000/api/menuItems/images/9c274b8b6f59da73d6c973195919748f.jpeg`}
-              title='Avacado Breakfast Bowl'
-              price='8.79'
-              chefName='Steve Rogers'
-              description='Heart health and protein in a bowl! This recipe is an unexpected kick of flavor with egg, red quinoa, avocado, and feta cheese! Very easy to make and a delicious start to the day'
-            />
-          </Grid>
-          <Grid item xs={12} className={classes.card}>
-            <CartCard
-              imageSrc={`http://localhost:5000/api/menuItems/images/9c274b8b6f59da73d6c973195919748f.jpeg`}
-              title='Avacado Breakfast Bowl'
-              price='8.79'
-              chefName='Steve Rogers'
-              description='Heart health and protein in a bowl! This recipe is an unexpected kick of flavor with egg, red quinoa, avocado, and feta cheese! Very easy to make and a delicious start to the day'
-            />
-          </Grid>
+          {itemsInCart.map((itemInCart) => (
+            <Grid item xs={12} className={classes.card}>
+              <CartCard
+                imageSrc={`http://localhost:5000/api/menuItems/images/${itemInCart.image}`}
+                title={itemInCart.title}
+                price={itemInCart.price}
+                chefName={itemInCart.chefName}
+                description={itemInCart.description}
+              />
+            </Grid>
+          ))}
         </Grid>
         <Grid item xs={4}>
           <Card>

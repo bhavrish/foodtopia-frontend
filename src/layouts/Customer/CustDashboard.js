@@ -63,6 +63,7 @@ export default function CustDashboard(props) {
                   rate={recommendedDish.starRating}
                   chefName={recommendedDish.chefName}
                   description={recommendedDish.description}
+                  menuItem={recommendedDish}
                 />
               </Grid>
             ))}
@@ -87,6 +88,7 @@ export default function CustDashboard(props) {
                   rate={specialDish.starRating}
                   chefName={specialDish.chefName}
                   description={specialDish.description}
+                  menuItem={specialDish}
                 />
               </Grid>
             ))}

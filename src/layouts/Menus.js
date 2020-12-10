@@ -47,6 +47,7 @@ export default function Menus() {
                 rate={menuItem.starRating}
                 chefName={menuItem.chefName}
                 description={menuItem.description}
+                menuItem={menuItem}
               />
             </Grid>
           ))}

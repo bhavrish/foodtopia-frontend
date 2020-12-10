@@ -2,11 +2,12 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import CustomerContext from './customerContext';
 import CustomerReducer from './customerReducer';
-import { RECOMMENDED_DISHES } from '../types';
+import { RECOMMENDED_DISHES, ITEM_IN_CART } from '../types';
 
 const CustomerState = (props) => {
   const initialState = {
     recommendedDishes: [],
+    itemsInCart: [],
     error: null,
   };
 
@@ -37,11 +38,28 @@ const CustomerState = (props) => {
     }
   };
 
+  const addToCart = (menuItem) =>
+    dispatch({ type: ITEM_IN_CART, payload: menuItem });
+
+  const createOrder = async (order) => {
+    try {
+      const res = await axios.post('http://localhost:5000/api/orders', {
+        menuItemID: order.menuItemIdD,
+        customerID: order.customerID,
+        deliveryNeeded: order.deliveryNeeded,
+        price: order.price,
+      });
+    } catch (error) {}
+  };
+
   return (
     <CustomerContext.Provider
       value={{
         recommendedDishes: state.recommendedDishes,
+        itemsInCart: state.itemsInCart,
         getRecommendedDishes,
+        addToCart,
+        createOrder,
       }}
     >
       {props.children}
