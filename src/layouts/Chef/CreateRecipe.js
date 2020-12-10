@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -10,6 +10,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { DropzoneArea } from 'material-ui-dropzone';
 
+import ChefContext from '../../context/chef/chefContext';
+import AuthContext from '../../context/auth/authContext';
+
 const useStyles = makeStyles((theme) => ({
   addRecipeBtn: {
     float: 'right',
@@ -18,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateRecipe = () => {
   const classes = useStyles();
+
+  const chefContext = useContext(ChefContext);
+  const authContext = useContext(AuthContext);
+
+  const { createRecipe } = chefContext;
+  const { user } = authContext;
 
   const [open, setOpen] = React.useState(false);
   const [recipe, setRecipe] = useState({
@@ -37,15 +46,25 @@ const CreateRecipe = () => {
 
   const handleClose = () => {
     setOpen(false);
-    console.log(recipe);
     console.log(image);
+    createRecipe({
+      title: recipe.title,
+      chefName: `${user.firstName} ${user.lastName}`,
+      chefID: user._id,
+      description: recipe.description,
+      ingredients: recipe.ingredients,
+      dietaryRestrictions: recipe.dietaryRestrictions,
+      type: recipe.type,
+      price: recipe.price,
+      image: image,
+    });
   };
 
   const onChange = (e) =>
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
 
   const uploadImage = (image) => {
-    setImage(image);
+    setImage(image[0]);
   };
 
   return (
@@ -75,16 +94,7 @@ const CreateRecipe = () => {
             label='Title'
             onChange={onChange}
           />
-          <TextField
-            variant='outlined'
-            margin='normal'
-            required
-            fullWidth
-            id='chefName'
-            name='chefName'
-            label='Chef Name'
-            onChange={onChange}
-          />
+
           <TextField
             variant='outlined'
             margin='normal'
@@ -96,6 +106,7 @@ const CreateRecipe = () => {
             label='Description'
             onChange={onChange}
           />
+
           <TextField
             variant='outlined'
             margin='normal'
@@ -107,6 +118,7 @@ const CreateRecipe = () => {
             placeholder='Ex: eggs, cheese, milk'
             onChange={onChange}
           />
+
           <TextField
             variant='outlined'
             margin='normal'
@@ -118,6 +130,7 @@ const CreateRecipe = () => {
             placeholder='Ex: eggs, cheese, milk'
             onChange={onChange}
           />
+
           <TextField
             variant='outlined'
             margin='normal'
@@ -129,6 +142,7 @@ const CreateRecipe = () => {
             placeholder='food or drink'
             onChange={onChange}
           />
+
           <TextField
             variant='outlined'
             margin='normal'
@@ -139,7 +153,8 @@ const CreateRecipe = () => {
             label='Price'
             onChange={onChange}
           />
-          <DropzoneArea onChange={uploadImage} />
+
+          <DropzoneArea name='image' onChange={uploadImage} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color='primary'>

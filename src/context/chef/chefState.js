@@ -12,10 +12,11 @@ const ChefState = (props) => {
 
   const [state, dispatch] = useReducer(ChefReducer, initialState);
 
-  const getRecipes = async (chefId) => {
+  const getRecipes = async (chefID) => {
     try {
+      console.log(chefID);
       const res = await axios.get(
-        `http://localhost:5000/api/menuItems?chefId=${chefId}`
+        `http://localhost:5000/api/menuItems?chefID=${chefID}`
       );
 
       console.log(res.data);
@@ -30,23 +31,39 @@ const ChefState = (props) => {
 
   const createRecipe = async (formData) => {
     try {
-      const res = await axios.post(`http://localhost:5000/api/menuItems`, {
-        title: formData.title,
-        chefName: formData.chefName,
-        chefId: formData.chefId,
-        description: formData.description,
-        ingredients: formData.ingredients,
-        dietaryRestrictions: formData.dietaryRestrictions,
-        type: formData.type,
-        price: formData.price,
-        image: formData.image,
-      });
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      };
+
+      const data = new FormData();
+      data.append('image', formData.image);
+      data.append('title', formData.title);
+      data.append('chefID', formData.chefID);
+      data.append('chefName', formData.chefName);
+      data.append('description', formData.description);
+      data.append('ingredients', formData.ingredients);
+      data.append('dietaryRestrictions', formData.dietaryRestrictions);
+      data.append('price', formData.price);
+
+      console.log('DATA:', data);
+
+      const res = await axios.post(
+        `http://localhost:5000/api/menuItems`,
+        data,
+        config
+      );
+
+      console.log(res.data);
 
       dispatch({
         type: CREATE_RECIPE,
         payload: res.data,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
