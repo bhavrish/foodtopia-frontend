@@ -1,4 +1,9 @@
-import { GET_MENUITEMS, GET_MENUITEMS_ERROR, CLEAR_ERRORS } from '../types';
+import {
+  GET_MENUITEMS,
+  GET_MENUITEMS_ERROR,
+  CLEAR_ERRORS,
+  SPECIAL_DISHES,
+} from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -13,6 +18,14 @@ export default (state, action) => {
       return {
         ...state,
         error: action.payload,
+      };
+
+    case SPECIAL_DISHES:
+      return {
+        ...state,
+        specialDishes: state.menuItems.filter(
+          (menuItem) => menuItem.specialItem
+        ),
       };
 
     case CLEAR_ERRORS:

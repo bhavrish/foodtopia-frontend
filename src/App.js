@@ -40,6 +40,7 @@ import Alerts from './components/Alerts';
 import AlertState from './context/alerts/alertState';
 import AuthState from './context/auth/authState';
 import MenuItemsState from './context/menuItems/menuItemsState';
+import CustomerState from './context/customer/customerState';
 
 import ManagerState from './context/manager/managerState';
 
@@ -49,6 +50,7 @@ export default function App() {
     <ManagerState>
       <MenuItemsState>
         <AuthState>
+        <CustomerState>
           <AlertState>
             <Router>
               <div className='App'>
@@ -65,9 +67,11 @@ export default function App() {
               </div>
             </Router>
           </AlertState>
+          </CustomerState>
         </AuthState>
       </MenuItemsState>
     </ManagerState>
+
   );
 }
 
