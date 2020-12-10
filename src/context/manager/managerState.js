@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import ManagerContext from './managerContext';
 import ManagerReducer from './managerReducer';
-import { GET_PENDING_CUSTOMERS, GET_PENDING_EMPLOYEES, CUSTOMER_SUCCESS, EMPLOYEE_SUCCESS, API_ERROR, CLEAR_ERRORS } from '../types';
+import { GET_PENDING_CUSTOMERS, GET_PENDING_EMPLOYEES, GET_REVIEWS, CUSTOMER_SUCCESS, EMPLOYEE_SUCCESS, API_ERROR, CLEAR_ERRORS } from '../types';
 
 const ManagerState = (props) => {
   const initialState = {
@@ -45,6 +45,28 @@ const ManagerState = (props) => {
 
       dispatch({
         type: GET_PENDING_EMPLOYEES,
+        payload: res.data,
+      });
+    } catch (error) {
+      const errMsg =
+        error.message === 'Network Error'
+          ? 'Server Error'
+          : error.response.data.msg;
+
+      dispatch({
+        type: API_ERROR,
+        payload: errMsg,
+      });
+    }
+  };
+
+  // get reviews
+  const getReviews = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/reviews');
+
+      dispatch({
+        type: GET_REVIEWS,
         payload: res.data,
       });
     } catch (error) {
@@ -129,8 +151,8 @@ const ManagerState = (props) => {
     };
 
     try {
-      const res = await axios.post(
-        `http://localhost:5000/api/manager/hire/${customerID}`,
+      const res = await axios.delete(
+        `http://localhost:5000/api/customers/${customerID}`,
         config
       );
 
@@ -197,6 +219,7 @@ const ManagerState = (props) => {
         loading: state.loading,
         getPendingCustomers,
         getPendingEmployees,
+        getReviews,
         approveCustomer,
         hireEmployee,
         declineCustomer,

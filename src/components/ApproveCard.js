@@ -18,9 +18,15 @@ const useStyles = makeStyles((theme) => ({
   },
   red: {
     background: theme.palette.buttonColor1.main,
+    marginRight: theme.spacing(2)
+  },
+  primary: {
+    background: theme.palette.primary.main,
+    marginRight: theme.spacing(2)
   },
   green: {
     background: theme.palette.buttonColor2.main,
+    marginRight: theme.spacing(2)
   }
 }));
 
@@ -28,14 +34,20 @@ export default function ApproveCard(props) {
   const classes = useStyles();
 
   const managerContext = useContext(ManagerContext);
-  const { hireEmployee, declineEmployee } = managerContext;
+  const { hireEmployee, declineEmployee, approveCustomer, declineCustomer } = managerContext;
 
   const onApprove = () => {
-    hireEmployee(props.id);
+    if (props.type === "chef" || props.type === "delivery")
+      hireEmployee(props.id);
+    else if (props.type === "customer")
+      approveCustomer(props.id);
   };
 
   const onDecline = () => {
-    declineEmployee(props.id);
+    if (props.type === "chef" || props.type === "delivery")
+      declineEmployee(props.id);
+    else if (props.type === "customer")
+      declineCustomer(props.id);
   };
 
   return (
@@ -61,11 +73,9 @@ export default function ApproveCard(props) {
         </Typography>
         <br/>
         <Box display="flex" justifyContent="flex-end">
-          <ButtonGroup className={classes.buttonContainer} variant="contained" aria-label="button group">
-            <Button className={classes.green} size="small" onClick={onApprove}>Approve</Button>
-            <Button color="Primary" size="small" onClick={onDecline}>Decline</Button>
-            <Button className={classes.red} size="small">Ban</Button>
-          </ButtonGroup>
+          <Button className={classes.green} size="small" onClick={onApprove}>Approve</Button>
+          <Button className={classes.primary} size="small" onClick={onDecline}>Decline</Button>
+          <Button className={classes.red} size="small">Ban</Button>
         </Box>
       </CardContent>
     </Card>

@@ -1,4 +1,4 @@
-import { GET_PENDING_CUSTOMERS, GET_PENDING_EMPLOYEES, CUSTOMER_SUCCESS, EMPLOYEE_SUCCESS, API_ERROR, CLEAR_ERRORS } from '../types';
+import { GET_PENDING_CUSTOMERS, GET_PENDING_EMPLOYEES, GET_REVIEWS, CUSTOMER_SUCCESS, EMPLOYEE_SUCCESS, API_ERROR, CLEAR_ERRORS } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -13,6 +13,13 @@ export default (state, action) => {
       return {
         ...state,
         employees: action.payload,
+        loading: false,
+      };
+    
+    case GET_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
         loading: false,
       };
     
