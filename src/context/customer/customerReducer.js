@@ -30,7 +30,6 @@ export default (state, action) => {
       return {
         ...state,
         error: action.payload,
-        itemsInCart: [],
       };
 
     case CLEAR_ERRORS:

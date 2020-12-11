@@ -50,7 +50,7 @@ const CustomerState = (props) => {
   const createOrder = async (order, userBalance) => {
     try {
       if (order.price > userBalance) {
-        dispatch({
+        return dispatch({
           type: INSUFFFICIENT_BALANCE,
           payload: 'Insufficient balance',
         });
