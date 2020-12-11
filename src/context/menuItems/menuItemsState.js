@@ -38,11 +38,11 @@ const MenuItemsState = (props) => {
     try {
       const res = await axios.get('http://localhost:5000/api/menuItems');
 
-      // get the average rating and put it in menuItem object
-      for (const menuItem of res.data) {
-        const rating = await getRating(menuItem._id);
-        menuItem.starRating = rating ? rating : 'n/a';
-      }
+      // round star rating to 1 decimal place
+      res.data.forEach((menuItem) => {
+        const rate = menuItem.starRating;
+        menuItem.starRating = rate.toFixed(1);
+      });
 
       dispatch({
         type: GET_MENUITEMS,

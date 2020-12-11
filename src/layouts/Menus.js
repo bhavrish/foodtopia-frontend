@@ -91,9 +91,10 @@ export default function Menus() {
                     imageSrc={`http://localhost:5000/api/menuItems/images/${menuItem.image}`}
                     title={menuItem.title}
                     price={menuItem.price}
-                    rate={menuItem.starRating}
+                    rate={menuItem.starRating.toFixed(1)}
                     chefName={menuItem.chefName}
                     description={menuItem.description}
+                    menuItem={menuItem}
                   />
                 </Grid>
               ))
@@ -106,6 +107,7 @@ export default function Menus() {
                     rate={menuItem.starRating}
                     chefName={menuItem.chefName}
                     description={menuItem.description}
+                    menuItem={menuItem}
                   />
                 </Grid>
               ))}

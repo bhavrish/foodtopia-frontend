@@ -28,12 +28,12 @@ export default function CustListItems(props) {
         button
         component={RouterLink}
         to='/customer/reviews'
-        onClick={() => props.display('Reviews')}
+        onClick={() => props.display('Reviews Recieved')}
       >
         <ListItemIcon>
           <RateReviewIcon />
         </ListItemIcon>
-        <ListItemText primary='Reviews' />
+        <ListItemText primary='Reviews Recieved' />
       </ListItem>
 
       <ListItem button component={RouterLink} to='/menus'>
