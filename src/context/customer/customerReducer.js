@@ -2,7 +2,7 @@ import {
   RECOMMENDED_DISHES,
   ITEM_IN_CART,
   PLACE_ORDER,
-  INSUFFFICIENT_BALANCE,
+  INSUFFICIENT_BALANCE,
   NEW_BALANCE,
   CLEAR_ERRORS,
   DISCUSSION_POSTS_SUCCESS,
@@ -58,7 +58,7 @@ export default (state, action) => {
         ),
       };
 
-    case INSUFFFICIENT_BALANCE:
+    case INSUFFICIENT_BALANCE:
       return {
         ...state,
         error: action.payload,

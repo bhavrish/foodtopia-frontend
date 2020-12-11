@@ -6,7 +6,7 @@ import {
   RECOMMENDED_DISHES,
   ITEM_IN_CART,
   PLACE_ORDER,
-  INSUFFFICIENT_BALANCE,
+  INSUFFICIENT_BALANCE,
   NEW_BALANCE,
   CLEAR_ERRORS,
   DISCUSSION_POSTS_SUCCESS,
@@ -85,7 +85,7 @@ const CustomerState = (props) => {
       });
     } catch (error) {
       return dispatch({
-        type: INSUFFFICIENT_BALANCE,
+        type: INSUFFICIENT_BALANCE,
         payload: 'Insufficient balance',
       });
     }
@@ -109,7 +109,7 @@ const CustomerState = (props) => {
     }
   };
 
-
+  
   const clearError = () => dispatch({ type: CLEAR_ERRORS });
   // get discussion posts
   const getDiscussionPosts = async () => {

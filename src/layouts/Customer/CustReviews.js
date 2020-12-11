@@ -53,7 +53,6 @@ export default function CustReviews(props) {
     useEffect(() => {
       if (user) {
         getReviews(user._id);
-        //postReview();
       }
       // eslint-disable-next-line
     }, [user]);
@@ -69,7 +68,6 @@ export default function CustReviews(props) {
       starRating: 5,
     });
 
-    //const [anchorEl, setAnchorEl] = React.useState(null);
     const [value, setValue] = React.useState(2);
   
     const handleClickOpen = () => {
@@ -90,14 +88,6 @@ export default function CustReviews(props) {
 
       });
     };
-
-    /*const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-      };
-
-    const handleClose2 = () => {
-        setAnchorEl(null);
-    };*/
 
     const onChange = (e) => {
       setReview({ ...review, [e.target.name]: e.target.value });
@@ -165,7 +155,7 @@ export default function CustReviews(props) {
               margin="dense"
               id="reviewTo"
               name="reviewTo"
-              label="Review To ID"
+              label="Review To ID*"
               type="email"
               fullWidth
               onChange={onChange}
@@ -177,7 +167,7 @@ export default function CustReviews(props) {
               multiline
               id="review"
               name="review"
-              label="Review"
+              label="Review*"
               type="email"
               fullWidth
               onChange={onChange}
@@ -185,7 +175,8 @@ export default function CustReviews(props) {
 
           <Box component="fieldset" mb={3} borderColor="transparent">
             <Rating
-              name="simple-controlled"
+              id="starRating"
+              name="starRating"
               value={value}
               onChange={(event, newValue, onChange) => {
                 setValue(newValue);
