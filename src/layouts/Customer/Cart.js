@@ -9,6 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
 
 import AuthContext from '../../context/auth/authContext';
 import CustomerContext from '../../context/customer/customerContext';
@@ -150,7 +151,15 @@ export default function Cart(props) {
                   <Typography variant='h6'>
                     Delivery - {itemsInCart.length * 0.25}
                   </Typography>
-                ) : null}
+                ) : (
+                  <div>
+                    <Typography variant='h6'>For pick up / dine in</Typography>
+                    if you ordering dine in, please book your seats &nbsp;
+                    <Link href='https://www.opentable.co.th/' target='_blank'>
+                      here
+                    </Link>
+                  </div>
+                )}
 
                 <br />
                 <Divider />
