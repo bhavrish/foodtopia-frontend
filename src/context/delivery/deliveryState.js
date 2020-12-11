@@ -87,17 +87,15 @@ const DeliveryState = (props) => {
     }
   };
 
-  const disputeReview = async (reviewID) => {
+  const deliveryDisputeReview = async (reviewID) => {
     try{
       const review = await axios.patch(`http://localhost:5000/api/reviews/needToHandle/${reviewID}`);
       
-      review.needToBeHandled = true;
+      review.data.needToBeHandled = true;
 
       dispatch({
         type: DISPUTE_REVIEW,
-        payload: {
-          reviews: review.data,
-        },
+        payload: reviewID,
       });
     } catch (error) {
       console.log(error);
@@ -109,22 +107,19 @@ const DeliveryState = (props) => {
     try{
       const config = {
         headers: {
-          'content-type': 'multipart/form-data',
+          'content-type': 'application/json',
         },
       };
 
-      const data = new FormData();
+     /* const data = new FormData();
       data.append('type', formData.type);
       data.append('reviewTo', formData.reviewTo);
       data.append('review', formData.review);
       data.append('starRating', formData.starRating);
-  
-
-      console.log('DATA:', data);
-
+  */
       const res = await axios.post(
         `http://localhost:5000/api/reviews`,
-        data,
+        formData,
         config
       );
 
@@ -145,12 +140,13 @@ const DeliveryState = (props) => {
     <DeliveryContext.Provider
       value={{
         orders: state.orders,
-        reviews: state.orders,
+        reviews: state.reviews,
         error: state.error,
         getOrders,
         deliverOrder,
         getReviews,
-        disputeReview,
+        deliveryDisputeReview,
+        postReview,
       }}
     >
       {props.children}

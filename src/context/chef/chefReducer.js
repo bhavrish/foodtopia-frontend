@@ -20,10 +20,13 @@ export default (state, action) => {
         reviews: action.payload,
       };
 
+
     case DISPUTE_REVIEW:
       return {
         ...state,
-        reviews: action.payload,
+        reviews: state.reviews.filter(
+          review => review._id !== action.payload
+        ),
       };
       
     case GET_ORDERS:

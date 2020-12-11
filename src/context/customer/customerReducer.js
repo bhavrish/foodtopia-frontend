@@ -23,7 +23,9 @@ export default (state, action) => {
       case DISPUTE_REVIEW:
         return {
           ...state,
-          reviews: action.payload,
+          reviews: state.reviews.filter(
+            review => review._id !== action.payload
+          ),
         };
 
     default:

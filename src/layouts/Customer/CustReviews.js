@@ -52,7 +52,7 @@ export default function CustReviews(props) {
     useEffect(() => {
       if (user) {
         getReviews(user._id);
-        postReview();
+        //postReview();
       }
       // eslint-disable-next-line
     }, [user]);
@@ -75,10 +75,13 @@ export default function CustReviews(props) {
   
     const handleClose = () => {
       setOpen(false);
+      console.log(review);
       postReview({
         type: review.type,
         reviewFrom: user._id,
+        reviewFromType: 'customer',
         reviewTo: review.reviewTo,
+        reviewToType: review.reviewToType,
         review: review.review,
         starRating: review.starRating,
 
@@ -93,9 +96,10 @@ export default function CustReviews(props) {
         setAnchorEl(null);
     };
 
-    const onChange = (e) =>
+    const onChange = (e) => {
       setReview({ ...review, [e.target.name]: e.target.value });
-
+      console.log (review);
+    }
   
     return (
       <div>
@@ -140,7 +144,8 @@ export default function CustReviews(props) {
               autoFocus
               margin="dense"
               multiline
-              id="name"
+              id="review"
+              name="review"
               label="Review"
               type="email"
               fullWidth

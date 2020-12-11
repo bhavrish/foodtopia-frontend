@@ -30,12 +30,18 @@ const useStyles = makeStyles((theme) => ({
 export default function ReviewCard2(props) {
   const classes = useStyles();
 
+  const deliveryContext = useContext(DeliveryContext);
+  const { deliveryDisputeReview } = deliveryContext;
+
   const customerContext = useContext(CustomerContext);
-  const { disputeReview } = customerContext;
+  const { customerDisputeReview } = customerContext;
+
+  const chefContext = useContext(ChefContext);
+  const { chefDisputeReview } = chefContext;
   
 
   const onDispute = () => {
-    disputeReview(props.id);
+    deliveryDisputeReview(props.id);
   };
 
   return (

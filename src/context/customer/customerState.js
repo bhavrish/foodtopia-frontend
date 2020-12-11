@@ -60,7 +60,7 @@ const CustomerState = (props) => {
     try{
       const config = {
         headers: {
-          'content-type': 'multipart/form-data',
+          'content-type': 'application/json',
         },
       };
       const data = new FormData();
@@ -68,13 +68,15 @@ const CustomerState = (props) => {
       data.append('reviewTo', formData.reviewTo);
       data.append('review', formData.review);
       data.append('starRating', formData.starRating);
- 
-
+      
       const res = await axios.post(
         `http://localhost:5000/api/reviews`,
-        data,
+        formData,
         config
       );
+      console.log(res.data);
+      console.log(formData);
+
       dispatch({
         type: POST_REVIEW,
         payload: {
@@ -86,13 +88,13 @@ const CustomerState = (props) => {
     }
   };
 
-  const disputeReview = async (reviewID) => {
+  const customerDisputeReview = async (reviewID) => {
     try{
       const res = await axios.patch(
         `http://localhost:5000/api/reviews/needToHandle/${reviewID}`,
       );
 
-      res.needToBeHandled = true;
+      res.data.needToBeHandled = true;
 
       dispatch({
         type: DISPUTE_REVIEW,
@@ -114,7 +116,7 @@ const CustomerState = (props) => {
         getRecommendedDishes,
         getReviews,
         postReview,
-        disputeReview,
+        customerDisputeReview,
       }}
     >
       {props.children}

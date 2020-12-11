@@ -85,11 +85,11 @@ const ChefState = (props) => {
     }
   };
 
-  const disputeReview = async (reviewID) => {
+  const chefDisputeReview = async (reviewID) => {
     try{
       const review = await axios.patch(`http://localhost:5000/api/reviews/needToHandle/${reviewID}`);
       
-      review.needToBeHandled = true;
+      review.data.needToBeHandled = true;
 
       dispatch({
         type: DISPUTE_REVIEW,
@@ -169,7 +169,7 @@ const ChefState = (props) => {
         getRecipes,
         createRecipe,
         getReviews,
-        disputeReview,
+        chefDisputeReview,
         getOrders,
         cookOrder,
       }}

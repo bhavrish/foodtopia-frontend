@@ -1,4 +1,4 @@
-import { GET_ORDERS, DELIVER_SUCCESS } from '../types';
+import { GET_ORDERS, DELIVER_SUCCESS, GET_REVIEWS, POST_REVIEW, DISPUTE_REVIEW } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -15,6 +15,26 @@ export default (state, action) => {
           order => order._id !== action.payload
         ),
       };
+
+      case GET_REVIEWS:
+        return {
+          ...state,
+          reviews: action.payload,
+        };
+
+      case POST_REVIEW:
+        return {
+          ...state,
+          reviews: [...state.reviews, action.payload],
+        };
+
+      case DISPUTE_REVIEW:
+        return {
+          ...state,
+          reviews: state.reviews.filter(
+            review => review._id !== action.payload
+          ),
+        };
 
     default:
       break;
