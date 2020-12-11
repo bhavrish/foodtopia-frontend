@@ -78,6 +78,7 @@ export default function DashboardLayout(props) {
           'Your message was deleted. You have been given a warning, please do not use inappropriate language'
         );
       } else {
+        flagDiscussionPost(user._id);
         postToDiscussion({
           customerID: user._id,
           message: newMessage,

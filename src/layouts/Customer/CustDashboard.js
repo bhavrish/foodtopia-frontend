@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import AuthContext from '../../context/auth/authContext';
 import CustomerContext from '../../context/customer/customerContext';
 import MenuItemsContext from '../../context/menuItems/menuItemsContext';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   btn: {
@@ -31,7 +32,7 @@ export default function CustDashboard(props) {
     addBalance,
     newBalance,
   } = customerContext;
-  const { user, setUserBalance } = authContext;
+  const { user, setUserBalance, signout } = authContext;
   const {
     menuItems,
     getMenuItems,
@@ -56,6 +57,12 @@ export default function CustDashboard(props) {
 
     // eslint-disable-next-line
   }, [user, menuItems]);
+
+  // if blacklisted user, log out user
+  if (user && user.isBlacklisted) {
+    signout();
+    return (<Redirect to = '/' />);
+  }
 
   const onAddBtnClick = () => {
     addBalance(balance, user._id);
