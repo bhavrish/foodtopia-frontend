@@ -10,42 +10,50 @@ import ForumIcon from '@material-ui/icons/Forum';
 import { Link as RouterLink } from 'react-router-dom';
 
 export default function CustListItems(props) {
-  return(
+  return (
     <div>
-        <ListItem button component={RouterLink} to="/customer/dashboard" onClick={() => props.display('Dashboard')}>
-            <ListItemIcon>
-                <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-        </ListItem>
+      <ListItem
+        button
+        component={RouterLink}
+        to='/customer/dashboard'
+        onClick={() => props.display('Dashboard')}
+      >
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary='Dashboard' />
+      </ListItem>
 
-        <ListItem button component={RouterLink} to="/customer/reviews" onClick ={() => props.display('Reviews')}>
-            <ListItemIcon>
-                <RateReviewIcon />
-            </ListItemIcon>
-            <ListItemText primary="Reviews" />
-        </ListItem>
-        
-        <ListItem button component={RouterLink} to="/menus">
-            <ListItemIcon>
-                <RestaurantMenuIcon />
-            </ListItemIcon>
-            <ListItemText primary="Menu" />
-        </ListItem>
+      <ListItem
+        button
+        component={RouterLink}
+        to='/customer/reviews'
+        onClick={() => props.display('Reviews')}
+      >
+        <ListItemIcon>
+          <RateReviewIcon />
+        </ListItemIcon>
+        <ListItemText primary='Reviews' />
+      </ListItem>
 
-        <ListItem button component={RouterLink} to="/customer/cart" onClick={() => props.display('Cart')}>
-            <ListItemIcon>
-                <ShoppingCartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Cart" />
-        </ListItem>
-        
-        <ListItem button component={RouterLink} to="/customer/discussion" onClick={() => props.display('Discussion')}>
-            <ListItemIcon>
-                <ForumIcon />
-            </ListItemIcon>
-            <ListItemText primary="Discussion" />
-        </ListItem>
+      <ListItem button component={RouterLink} to='/menus'>
+        <ListItemIcon>
+          <RestaurantMenuIcon />
+        </ListItemIcon>
+        <ListItemText primary='Menu' />
+      </ListItem>
+
+      <ListItem
+        button
+        component={RouterLink}
+        to='/customer/cart'
+        onClick={() => props.display('Cart')}
+      >
+        <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary='Cart' />
+      </ListItem>
     </div>
   );
-};
+}
