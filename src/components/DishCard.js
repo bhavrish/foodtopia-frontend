@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -9,6 +10,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
+import AuthContext from '../context/auth/authContext';
+import CustomerContext from '../context/customer/customerContext';
+
 const useStyles = makeStyles((theme) => ({
   media: {
     height: 200,
@@ -16,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   flexBox: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: "center",
+    alignItems: 'center',
   },
   circle: {
     width: '45px',
@@ -27,13 +31,30 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.primary.main,
   },
   button: {
-    display: "flex",
-    justifyContent: "flex-end",
-  }
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
 }));
 
 export default function DishCard(props) {
   const classes = useStyles();
+
+  const authContext = useContext(AuthContext);
+  const customerContext = useContext(CustomerContext);
+
+  const { isAuthenticated } = authContext;
+  const { addToCart } = customerContext;
+
+  const history = useHistory();
+
+  const changeRoute = () => {
+    if (isAuthenticated) {
+      addToCart(props.menuItem);
+      history.push('/customer/cart');
+    } else {
+      history.push('/auth/signin');
+    }
+  };
 
   return (
     <Card>
@@ -45,22 +66,32 @@ export default function DishCard(props) {
         />
         <CardContent>
           <div className={classes.flexBox}>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant='h5' component='h2'>
               {props.title} - ${props.price}
             </Typography>
-            <Typography gutterBottom variant="h5" component="h2" className={classes.circle}>
+            <Typography
+              gutterBottom
+              variant='h5'
+              component='h2'
+              className={classes.circle}
+            >
               {props.rate}
             </Typography>
           </div>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant='body2' color='textSecondary' component='p'>
             {props.description}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.button}>
-        <Button variant="contained" size="small" color="primary">
+        <Button
+          onClick={changeRoute}
+          variant='contained'
+          size='small'
+          color='primary'
+        >
           Order
-          <ShoppingCartIcon/>
+          <ShoppingCartIcon />
         </Button>
       </CardActions>
     </Card>
