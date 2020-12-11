@@ -134,6 +134,29 @@ export default function CustReviews(props) {
             </Select>
             </FormControl>
 
+            <FormControl variant='outlined' fullWidth margin='normal'>
+            <InputLabel htmlFor='outlined-userType-native-simple'>
+              ReviewTo Type*
+            </InputLabel>
+            <Select
+              native
+              onChange={onChange}
+              required
+              label='ReviewTo Type'
+              inputProps={{
+                name: 'reviewToType',
+                id: 'reviewToType',
+              }}
+            >
+              <option aria-label='None' value='' />
+              <option value='menuItem'>Menu Item</option>
+              <option value='customer'>Customer</option>
+              <option value='chef'>Chef</option>
+              <option value='delivery'>Delivery Person</option>
+
+            </Select>
+            </FormControl>
+
             <TextField
               variant="outlined"
               autoFocus
@@ -186,10 +209,6 @@ export default function CustReviews(props) {
                   <ReviewCard2
                     id={review._id}
                     reviewType={review.type}
-                    reviewTo={review.reviewTo}
-                    reviewToType={review.reviewToType}
-                    reviewFrom={review.reviewFrom}
-                    reviewFromType={review.reviewFromType}
                     reviewMessage={review.review}
                     rating={review.starRating}
                   />

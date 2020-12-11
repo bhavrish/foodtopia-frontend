@@ -71,11 +71,11 @@ const DeliveryState = (props) => {
   };
 
   // get reviews
-  const getReviews = async (chefID) => {
+  const getReviews = async (deliveryID) => {
     try {
 
       const res = await axios.get(
-        `http://localhost:5000/api/reviews?reviewTo=${chefID}`  
+        `http://localhost:5000/api/reviews?reviewTo=${deliveryID}`  
       );
 
       dispatch({
@@ -111,12 +111,12 @@ const DeliveryState = (props) => {
         },
       };
 
-     /* const data = new FormData();
+      const data = new FormData();
       data.append('type', formData.type);
       data.append('reviewTo', formData.reviewTo);
       data.append('review', formData.review);
       data.append('starRating', formData.starRating);
-  */
+  
       const res = await axios.post(
         `http://localhost:5000/api/reviews`,
         formData,

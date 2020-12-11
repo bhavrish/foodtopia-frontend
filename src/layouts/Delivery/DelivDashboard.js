@@ -53,7 +53,6 @@ export default function DelivDashboard(props) {
     useEffect(() => {
       if (user) {
         getReviews(user._id);
-        //postReview();
       }
       // eslint-disable-next-line
     }, [user]);
@@ -67,7 +66,7 @@ export default function DelivDashboard(props) {
       starRating: 5,
     });
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    //const [anchorEl, setAnchorEl] = React.useState(null);
     const [value, setValue] = React.useState(2);
   
     const handleClickOpen = () => {
@@ -81,6 +80,7 @@ export default function DelivDashboard(props) {
         reviewFrom: user._id,
         reviewFromType: 'delivery',
         reviewTo: review.reviewTo,
+        reviewToType: 'customer',
         review: review.review,
         starRating: review.starRating,
 
@@ -147,7 +147,8 @@ export default function DelivDashboard(props) {
               autoFocus
               margin="dense"
               multiline
-              id="name"
+              id="review"
+              name="review"
               label="Review"
               type="email"
               fullWidth
@@ -156,7 +157,8 @@ export default function DelivDashboard(props) {
 
           <Box component="fieldset" mb={3} borderColor="transparent">
             <Rating
-              name="simple-controlled"
+              name="starRating"
+              id="starRating"
               value={value}
               onChange={(event, newValue, onChange) => {
                 setValue(newValue);
@@ -182,10 +184,6 @@ export default function DelivDashboard(props) {
                   <ReviewCard2
                     id={review._id}
                     reviewType={review.type}
-                    reviewTo={review.reviewTo}
-                    reviewToType={review.reviewToType}
-                    reviewFrom={review.reviewFrom}
-                    reviewFromType={review.reviewFromType}
                     reviewMessage={review.review}
                     rating={review.starRating}
                   />
