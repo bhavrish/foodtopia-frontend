@@ -19,7 +19,7 @@ import {
   ChefListItems,
   ChefDashboard,
   Orders,
-  Receipts,
+  Recipes,
   ChefDiscussion,
 } from './layouts/Chef';
 import {
@@ -41,32 +41,37 @@ import AlertState from './context/alerts/alertState';
 import AuthState from './context/auth/authState';
 import MenuItemsState from './context/menuItems/menuItemsState';
 import ManagerState from './context/manager/managerState';
-
+import ChefState from './context/chef/chefState';
+import DeliveryState from './context/delivery/deliveryState';
 
 export default function App() {
   return (
-    <ManagerState>
-      <MenuItemsState>
+    <MenuItemsState>
+      <ManagerState>
         <AuthState>
-          <AlertState>
-            <Router>
-              <div className='App'>
-                <Alerts />
-                <Switch>
-                  <Route path='/delivery' component={DeliveryLayout} />
-                  <Route path='/chef' component={ChefLayout} />
-                  <Route path='/manager' component={ManagerLayout} />
-                  <Route path='/customer' component={CustomerLayout} />
-                  <Route path='/auth' component={AuthLayout} />
-                  <Route path='/menus' component={Menus} />
-                  <Route path='/' component={Home} />
-                </Switch>
-              </div>
-            </Router>
-          </AlertState>
+          <DeliveryState>
+            <ChefState>
+              <AlertState>
+                <Router>
+                  <div className='App'>
+                    <Alerts />
+                    <Switch>
+                      <Route path='/delivery' component={DeliveryLayout} />
+                      <Route path='/chef' component={ChefLayout} />
+                      <Route path='/manager' component={ManagerLayout} />
+                      <Route path='/customer' component={CustomerLayout} />
+                      <Route path='/auth' component={AuthLayout} />
+                      <Route path='/menus' component={Menus} />
+                      <Route path='/' component={Home} />
+                    </Switch>
+                  </div>
+                </Router>
+              </AlertState>
+            </ChefState>
+          </DeliveryState>
         </AuthState>
-      </MenuItemsState>
-    </ManagerState>
+      </ManagerState>
+    </MenuItemsState>
   );
 }
 
@@ -113,7 +118,7 @@ function ChefLayout() {
     <Switch>
       <Redirect exact from='/chef' to='/chef/dashboard' />
       <Route path='/chef/dashboard' exact component={ChefDashboard} />
-      <Route path='/chef/recipes' exact component={Receipts} />
+      <Route path='/chef/recipes' exact component={Recipes} />
       <Route path='/chef/orders' exact component={Orders} />
       <Route path='/chef/discussion' exact component={ChefDiscussion} />
     </Switch>
