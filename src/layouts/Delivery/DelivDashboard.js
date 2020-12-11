@@ -10,9 +10,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+//import Menu from '@material-ui/core/Menu';
+//import MenuItem from '@material-ui/core/MenuItem';
 
 import Rating from '@material-ui/lab/Rating';
 import Typography from '@material-ui/core/Typography';
@@ -84,13 +87,13 @@ export default function DelivDashboard(props) {
       });
     };
 
-    const handleClick = (event) => {
+    /*const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
-      };
+      };*/
 
-    const handleClose2 = () => {
+    /*const handleClose2 = () => {
         setAnchorEl(null);
-    };
+    };*/
 
     const onChange = (e) =>
       setReview({ ...review, [e.target.name]: e.target.value });
@@ -108,21 +111,26 @@ export default function DelivDashboard(props) {
               Enter your review below. We appreciate your feedback!
             </DialogContentText>
             
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                Review Type
-            </Button>
-            <Menu
-                id="type"
-                name="type"
-                onChange={onChange}
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose2}
+            <FormControl variant='outlined' fullWidth margin='normal'>
+            <InputLabel htmlFor='outlined-userType-native-simple'>
+              Review Type*
+            </InputLabel>
+            <Select
+              native
+              onChange={onChange}
+              required
+              label='Review Type'
+              inputProps={{
+                name: 'type',
+                id: 'type',
+              }}
             >
-                <MenuItem onClick={handleClose2}>Compliment</MenuItem>
-                <MenuItem onClick={handleClose2}>Complaint</MenuItem>
-            </Menu>
+              <option aria-label='None' value='' />
+              <option value='compliment'>Compliment</option>
+              <option value='complaint'>Complaint</option>
+            </Select>
+            </FormControl>
+            
             <TextField
               variant="outlined"
               autoFocus
