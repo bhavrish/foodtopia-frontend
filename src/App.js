@@ -40,19 +40,19 @@ import Alerts from './components/Alerts';
 import AlertState from './context/alerts/alertState';
 import AuthState from './context/auth/authState';
 import MenuItemsState from './context/menuItems/menuItemsState';
-import CustomerState from './context/customer/customerState';
 import ManagerState from './context/manager/managerState';
 import ChefState from './context/chef/chefState';
 import DeliveryState from './context/delivery/deliveryState';
+import CustomerState from './context/customer/customerState';
 
 export default function App() {
   return (
     <MenuItemsState>
       <ManagerState>
         <AuthState>
-          <DeliveryState>
-            <ChefState>
-              <CustomerState>
+          <CustomerState>
+            <DeliveryState>
+              <ChefState>
                 <AlertState>
                   <Router>
                     <div className='App'>
@@ -69,9 +69,9 @@ export default function App() {
                     </div>
                   </Router>
                 </AlertState>
-              </CustomerState>
-            </ChefState>
-          </DeliveryState>
+              </ChefState>
+            </DeliveryState>
+          </CustomerState>
         </AuthState>
       </ManagerState>
     </MenuItemsState>

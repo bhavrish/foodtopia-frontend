@@ -1,4 +1,4 @@
-import { RECOMMENDED_DISHES, GET_REVIEWS, POST_REVIEW, DISPUTE_REVIEW } from '../types';
+import { RECOMMENDED_DISHES, GET_REVIEWS, POST_REVIEW, DISPUTE_REVIEW, DISCUSSION_POSTS_SUCCESS } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -6,6 +6,12 @@ export default (state, action) => {
       return {
         ...state,
         recommendedDishes: action.payload,
+      };
+    
+    case DISCUSSION_POSTS_SUCCESS:
+      return {
+        ...state,
+        discussionPosts: action.payload,
       };
 
       case GET_REVIEWS:
