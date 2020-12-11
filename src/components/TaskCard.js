@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import DoneIcon from '@material-ui/icons/Done';
 import AuthContext from '../context/auth/authContext';
 import ChefContext from '../context/chef/chefContext';
+import DeliveryContext from '../context/delivery/deliveryContext';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -43,13 +44,23 @@ export default function TaskCard(props) {
   const chefContext = useContext(ChefContext);
   const { cookOrder } = chefContext;
 
+  const deliveryContext = useContext(DeliveryContext);
+  const { deliverOrder } = deliveryContext;
 
   const onDone = () => {
     if (user) {
-      cookOrder({
-        chefID: user._id,
-        orderID: props.id,
-      });
+      if (props.type === 'chef') {
+        cookOrder({
+          chefID: user._id,
+          orderID: props.id,
+        });
+      }
+      else if (props.type === 'delivery') {
+        deliverOrder({
+          deliveryID: user._id,
+          orderID: props.id,
+        });
+      }
     }
   };
 

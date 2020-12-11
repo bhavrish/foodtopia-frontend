@@ -48,14 +48,14 @@ const DeliveryState = (props) => {
       headers: { 'Content-Type': 'application/json' },
     };
     const orderID = orderData.orderID;
-    const chefID = orderData.chefID;
+    const deliveryID = orderData.deliveryID;
     console.log(orderID);
-    console.log(chefID);
+    console.log(deliveryID);
     try {
       const res = await axios.patch(
-        `http://localhost:5000/api/orders/cook/${orderID}`,
+        `http://localhost:5000/api/orders/deliver/${orderID}`,
         {
-          chefID,
+          deliveryID,
         },
         config
       );
