@@ -2,13 +2,21 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import MenuItemsContext from './menuItemsContext';
 import MenuItemsReducer from './menuItemsReducer';
-import { GET_MENUITEMS, GET_MENUITEMS_ERROR, CLEAR_ERRORS } from '../types';
+import {
+  GET_MENUITEMS,
+  GET_MENUITEMS_ERROR,
+  CLEAR_ERRORS,
+  SPECIAL_DISHES,
+  SEARCH_MENUITEMS,
+  CLEAR_SEARCH,
+} from '../types';
 
 const MenuItemsState = (props) => {
   const initialState = {
     menuItems: [],
     current: null,
     filtered: null,
+    specialDishes: [],
     error: null,
     loading: true,
   };
@@ -53,6 +61,19 @@ const MenuItemsState = (props) => {
     }
   };
 
+  // filter special dishes
+  const filterSpecialDishes = () => {
+    console.log('in filter dishes');
+    dispatch({ type: SPECIAL_DISHES });
+  };
+
+  // filter menuItems for search
+  const searchMenuItems = (text) =>
+    dispatch({ type: SEARCH_MENUITEMS, payload: text });
+
+  const clearSearch = () => {
+    dispatch({ type: CLEAR_SEARCH });
+  };
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
@@ -60,11 +81,15 @@ const MenuItemsState = (props) => {
       value={{
         menuItems: state.menuItems,
         current: state.current,
+        specialDishes: state.specialDishes,
         filtered: state.filtered,
         error: state.error,
         loading: state.loading,
         getMenuItems,
         getRating,
+        filterSpecialDishes,
+        searchMenuItems,
+        clearSearch,
         clearErrors,
       }}
     >

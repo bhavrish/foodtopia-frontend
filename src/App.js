@@ -43,32 +43,35 @@ import MenuItemsState from './context/menuItems/menuItemsState';
 import ManagerState from './context/manager/managerState';
 import ChefState from './context/chef/chefState';
 import DeliveryState from './context/delivery/deliveryState';
+import CustomerState from './context/customer/customerState';
 
 export default function App() {
   return (
     <MenuItemsState>
       <ManagerState>
         <AuthState>
-          <DeliveryState>
-            <ChefState>
-              <AlertState>
-                <Router>
-                  <div className='App'>
-                    <Alerts />
-                    <Switch>
-                      <Route path='/delivery' component={DeliveryLayout} />
-                      <Route path='/chef' component={ChefLayout} />
-                      <Route path='/manager' component={ManagerLayout} />
-                      <Route path='/customer' component={CustomerLayout} />
-                      <Route path='/auth' component={AuthLayout} />
-                      <Route path='/menus' component={Menus} />
-                      <Route path='/' component={Home} />
-                    </Switch>
-                  </div>
-                </Router>
-              </AlertState>
-            </ChefState>
-          </DeliveryState>
+          <CustomerState>
+            <DeliveryState>
+              <ChefState>
+                <AlertState>
+                  <Router>
+                    <div className='App'>
+                      <Alerts />
+                      <Switch>
+                        <Route path='/delivery' component={DeliveryLayout} />
+                        <Route path='/chef' component={ChefLayout} />
+                        <Route path='/manager' component={ManagerLayout} />
+                        <Route path='/customer' component={CustomerLayout} />
+                        <Route path='/auth' component={AuthLayout} />
+                        <Route path='/menus' component={Menus} />
+                        <Route path='/' component={Home} />
+                      </Switch>
+                    </div>
+                  </Router>
+                </AlertState>
+              </ChefState>
+            </DeliveryState>
+          </CustomerState>
         </AuthState>
       </ManagerState>
     </MenuItemsState>
