@@ -12,6 +12,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import CustomerContext from '../context/customer/customerContext';
 import ChefContext from '../context/chef/chefContext';
 import DeliveryContext from '../context/delivery/deliveryContext';
+import AuthContext from '../context/auth/authContext';
 
 
 
@@ -30,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
 export default function ReviewCard2(props) {
   const classes = useStyles();
 
+  const authContext = useContext(AuthContext);
+  const { typeOfUser, user } = authContext;
+
   const deliveryContext = useContext(DeliveryContext);
   const { deliveryDisputeReview } = deliveryContext;
 
@@ -40,9 +44,18 @@ export default function ReviewCard2(props) {
   const { chefDisputeReview } = chefContext;
   
 
-  const onDispute = () => {
+  const onDeliveryDispute = () => {
     deliveryDisputeReview(props.id);
   };
+
+  const onCustomerDispute = () => {
+    customerDisputeReview(props.id);
+  };
+
+  const onChefDispute = () => {
+    chefDisputeReview(props.id);
+  };
+
 
   return (
     <Card className={classes.root}>
@@ -63,7 +76,17 @@ export default function ReviewCard2(props) {
           <Rating name="review-rating" value={props.rating} readOnly />
         </Box>
         <Box display="flex" justifyContent="flex-end">
-            <Button className={classes.red} size="small" minWidth='50px' onClick={onDispute}>Dispute</Button>
+          {typeOfUser === 'delivery' ? 
+            <Button className={classes.red} size="small" minWidth='50px' onClick={onDeliveryDispute}>Dispute</Button>
+            : null}
+          {typeOfUser === 'customer' ? 
+            <Button className={classes.red} size="small" minWidth='50px' onClick={onCustomerDispute}>Dispute</Button>
+            : null}
+
+          {typeOfUser === 'chef' ? 
+            <Button className={classes.red} size="small" minWidth='50px' onClick={onChefDispute}>Dispute</Button>
+            : null}
+
         </Box>
 
       </CardContent>
