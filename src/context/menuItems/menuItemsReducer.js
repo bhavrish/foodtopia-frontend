@@ -1,4 +1,11 @@
-import { GET_MENUITEMS, GET_MENUITEMS_ERROR, CLEAR_ERRORS } from '../types';
+import {
+  GET_MENUITEMS,
+  GET_MENUITEMS_ERROR,
+  CLEAR_ERRORS,
+  SPECIAL_DISHES,
+  SEARCH_MENUITEMS,
+  CLEAR_SEARCH,
+} from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -13,6 +20,29 @@ export default (state, action) => {
       return {
         ...state,
         error: action.payload,
+      };
+
+    case SPECIAL_DISHES:
+      return {
+        ...state,
+        specialDishes: state.menuItems.filter(
+          (menuItem) => menuItem.specialItem
+        ),
+      };
+
+    case SEARCH_MENUITEMS:
+      return {
+        ...state,
+        filtered: state.menuItems.filter((menuItem) => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          return menuItem.title.match(regex);
+        }),
+      };
+
+    case CLEAR_SEARCH:
+      return {
+        ...state,
+        filtered: null,
       };
 
     case CLEAR_ERRORS:
