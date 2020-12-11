@@ -69,9 +69,15 @@ export default function CustDashboard(props) {
 
   return (
     <Grid container spacing={3}>
-      <Typography variant='h6' component='h6'>
-        Current Balance - $ {user && user.balance.toFixed(2)}
-      </Typography>
+      <Grid container item spacing={2} direction='column'>
+        <Typography variant='h6' component='h6'>
+          Warnings - {user && user.warnings}
+        </Typography>
+        <Typography variant='h6' component='h6'>
+          Current Balance - $ {user && user.balance.toFixed(2)}
+        </Typography>
+      </Grid>
+
       <Grid container item spacing={2} direction='row'>
         <Grid item xs={11}>
           <TextField
@@ -94,7 +100,6 @@ export default function CustDashboard(props) {
           </Button>
         </Grid>
       </Grid>
-
       <div>
         {recommendedDishes.length > 0 ? (
           <Typography variant='h6' component='h6'>
@@ -119,7 +124,6 @@ export default function CustDashboard(props) {
           </Grid>
         </Grid>
       </div>
-
       <div>
         {user && user.isVIP ? (
           <Typography variant='h6' component='h6'>
