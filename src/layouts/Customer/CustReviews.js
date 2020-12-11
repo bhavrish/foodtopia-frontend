@@ -151,7 +151,7 @@ export default function CustReviews(props) {
             <Rating
               name="simple-controlled"
               value={value}
-              onChange={(event, newValue, {onChange}) => {
+              onChange={(event, newValue, onChange) => {
                 setValue(newValue);
               }}
             />
