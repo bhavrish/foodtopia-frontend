@@ -51,13 +51,6 @@ const CustomerState = (props) => {
 
   const createOrder = async (order, userBalance) => {
     try {
-      if (order.price > userBalance) {
-        return dispatch({
-          type: INSUFFFICIENT_BALANCE,
-          payload: 'Insufficient balance',
-        });
-      }
-
       const res = await axios.post('http://localhost:5000/api/orders', {
         menuItemID: order.menuItemID,
         customerID: order.customerID,
@@ -67,8 +60,14 @@ const CustomerState = (props) => {
 
       dispatch({
         type: PLACE_ORDER,
+        payload: res.data,
       });
-    } catch (error) {}
+    } catch (error) {
+      return dispatch({
+        type: INSUFFFICIENT_BALANCE,
+        payload: 'Insufficient balance',
+      });
+    }
   };
 
   const addBalance = async (balance, customerId) => {

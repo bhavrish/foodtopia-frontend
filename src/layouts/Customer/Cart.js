@@ -7,6 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import AuthContext from '../../context/auth/authContext';
 import CustomerContext from '../../context/customer/customerContext';
@@ -33,6 +35,7 @@ export default function Cart(props) {
   const [total, setTotal] = useState(0);
   const [tax, setTax] = useState(0);
   const [deliveryCharge, setDeliveryCharge] = useState(0);
+  const [needDelivery, setneedDelivery] = useState(true);
 
   const customerContext = useContext(CustomerContext);
   const authContext = useContext(AuthContext);
@@ -48,6 +51,16 @@ export default function Cart(props) {
     setTax(itemsInCart.length * 0.25); // $0.25 tax per item
   }, []);
 
+  const handleNeedDelivery = (e) => {
+    setneedDelivery(e.target.checked);
+
+    if (!needDelivery) {
+      setDeliveryCharge(itemsInCart.length * 0.25);
+    } else {
+      setDeliveryCharge(0);
+    }
+  };
+
   const calculateSubTotal = () => {
     let price;
     if (user && user.isVIP) {
@@ -59,21 +72,26 @@ export default function Cart(props) {
     setSubTotal(price);
   };
 
+  const calculateItemPrice = (item) => {
+    return user.isVIP ? item.price * 0.9 : item.price;
+  };
+
   const placeOrder = () => {
     for (const item of itemsInCart) {
+      const itemPrice = calculateItemPrice(item);
+
       createOrder(
         {
           menuItemID: item._id,
           customerID: user._id,
-          deliveryNeeded: true,
-          price: item.price + tax + deliveryCharge,
+          deliveryNeeded: needDelivery,
+          price: needDelivery ? itemPrice + 0.5 : itemPrice + 0.25, // add 0.25 for delivery & 0.25 for tax per item conditionally
         },
         user.balance
       );
 
       if (error) {
         setAlert(error, 'error');
-        clearError();
       } else {
         subtractUserBalance(subTotal + tax + deliveryCharge);
       }
@@ -109,19 +127,36 @@ export default function Cart(props) {
                 <Divider />
                 <br />
 
-                <Typography variant='h6'>Subtotal - {subTotal}</Typography>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={needDelivery}
+                      onChange={handleNeedDelivery}
+                      name='needDelivery'
+                      color='primary'
+                    />
+                  }
+                  label='Need it delivered?'
+                />
+
+                <Typography variant='h6'>
+                  Subtotal - {subTotal.toFixed(2)}
+                </Typography>
                 <Typography variant='h6'>
                   Tax - {itemsInCart.length * 0.25}
                 </Typography>
-                <Typography variant='h6'>
-                  Delivery - {itemsInCart.length * 0.25}
-                </Typography>
+
+                {needDelivery ? (
+                  <Typography variant='h6'>
+                    Delivery - {itemsInCart.length * 0.25}
+                  </Typography>
+                ) : null}
 
                 <br />
                 <Divider />
                 <br />
                 <Typography variant='h5'>
-                  TOTAL - {subTotal + tax + deliveryCharge}
+                  TOTAL - {(subTotal + tax + deliveryCharge).toFixed(2)}
                 </Typography>
 
                 <br />

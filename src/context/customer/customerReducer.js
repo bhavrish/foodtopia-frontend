@@ -24,7 +24,9 @@ export default (state, action) => {
     case PLACE_ORDER:
       return {
         ...state,
-        itemsInCart: [],
+        itemsInCart: state.itemsInCart.filter(
+          (itemsInCart) => itemsInCart._id !== action.payload.menuItem
+        ),
       };
 
     case INSUFFFICIENT_BALANCE:
