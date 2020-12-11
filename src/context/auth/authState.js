@@ -12,6 +12,7 @@ import {
   SIGNOUT,
   SIGNOUT_FAIL,
   AUTH_ERROR,
+  SUBTRACT_BALANCE,
   CLEAR_ERRORS,
   CLEAR_MSG,
   SERVER_ERROR,
@@ -144,6 +145,10 @@ const AuthState = (props) => {
   // signout user
   const signout = () => dispatch({ type: SIGNOUT });
 
+  // subtract user balance
+  const subtractUserBalance = (price) =>
+    dispatch({ type: SUBTRACT_BALANCE, payload: price });
+
   // clear errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
@@ -163,6 +168,7 @@ const AuthState = (props) => {
         signup,
         signout,
         loadUser,
+        subtractUserBalance,
         clearErrors,
         clearMsg,
       }}

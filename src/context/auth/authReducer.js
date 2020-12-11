@@ -10,6 +10,7 @@ import {
   CLEAR_ERRORS,
   CLEAR_MSG,
   SERVER_ERROR,
+  SUBTRACT_BALANCE,
 } from '../types';
 
 export default (state, action) => {
@@ -61,6 +62,15 @@ export default (state, action) => {
         loading: false,
         user: null,
         error: action.payload,
+      };
+
+    case SUBTRACT_BALANCE:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          balance: state.user.balance - action.payload,
+        },
       };
 
     // cases where token is not retrieved so no needed to
