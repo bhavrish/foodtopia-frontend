@@ -61,7 +61,9 @@ export default function DelivDashboard(props) {
     const [review, setReview] = useState({
       type: '',
       reviewFrom: '',
+      reviewFromType: 'DeliveryPerson',
       reviewTo: '',
+      reviewToType: 'Customer',
       review: '',
       starRating: 5,
     });
@@ -78,11 +80,11 @@ export default function DelivDashboard(props) {
       postReview({
         type: review.type,
         reviewFrom: user._id,
-        reviewFromType: 'delivery',
+        reviewFromType: 'DeliveryPerson',
         reviewTo: review.reviewTo,
-        reviewToType: 'customer',
+        reviewToType: 'Customer',
         review: review.review,
-        starRating: review.starRating,
+        starRating: value,
 
       });
     };
@@ -134,6 +136,7 @@ export default function DelivDashboard(props) {
             <TextField
               variant="outlined"
               autoFocus
+              required
               margin="dense"
               id="reviewTo"
               name="reviewTo"
@@ -157,6 +160,7 @@ export default function DelivDashboard(props) {
 
           <Box component="fieldset" mb={3} borderColor="transparent">
             <Rating
+              required
               name="starRating"
               id="starRating"
               value={value}
@@ -178,12 +182,16 @@ export default function DelivDashboard(props) {
         </Dialog>
         <div></div>
         <Grid container spacing={3}>
-          <Grid container direction='column' item xs={6} spacing={5}>
+          <Grid container item xs={12} spacing={5}>
             {reviews.map((review) => (
-                <Grid key = {review._id} item xs={4}>
+                <Grid key = {review._id} item xs={6}>
                   <ReviewCard2
                     id={review._id}
                     reviewType={review.type}
+                    reviewTo={review.reviewTo}
+                    reviewToType={review.reviewToType}
+                    reviewFrom={review.reviewFrom}
+                    reviewFromType={review.reviewFromType}
                     reviewMessage={review.review}
                     rating={review.starRating}
                   />

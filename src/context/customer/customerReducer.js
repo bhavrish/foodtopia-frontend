@@ -19,12 +19,12 @@ export default (state, action) => {
           ...state,
           reviews: action.payload,
         };
-
+/*
       case POST_REVIEW:
         return {
           ...state,
           reviews: [...state.reviews, action.payload],
-        };
+        };*/
 
       case DISPUTE_REVIEW:
         return {

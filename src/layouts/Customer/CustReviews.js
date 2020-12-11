@@ -62,7 +62,9 @@ export default function CustReviews(props) {
     const [review, setReview] = useState({
       type: '',
       reviewFrom: '',
+      reviewFromType: 'Customer',
       reviewTo: '',
+      reviewToType: '',
       review: '',
       starRating: 5,
     });
@@ -80,11 +82,11 @@ export default function CustReviews(props) {
       postReview({
         type: review.type,
         reviewFrom: user._id,
-        reviewFromType: 'customer',
+        reviewFromType: 'Customer',
         reviewTo: review.reviewTo,
         reviewToType: review.reviewToType,
         review: review.review,
-        starRating: review.starRating,
+        starRating: value,
 
       });
     };
@@ -149,10 +151,10 @@ export default function CustReviews(props) {
               }}
             >
               <option aria-label='None' value='' />
-              <option value='menuItem'>Menu Item</option>
-              <option value='customer'>Customer</option>
-              <option value='chef'>Chef</option>
-              <option value='delivery'>Delivery Person</option>
+              <option value='MenuItem'>Menu Item</option>
+              <option value='Customer'>Customer</option>
+              <option value='Chef'>Chef</option>
+              <option value='DeliveryPerson'>Delivery Person</option>
 
             </Select>
             </FormControl>
@@ -203,12 +205,16 @@ export default function CustReviews(props) {
         </Dialog>
         <div></div>
         <Grid container spacing={3}>
-          <Grid container direction='column' item xs={6} spacing={5}>
+          <Grid container item xs={12} spacing={5}>
             {reviews.map((review) => (
-                <Grid key = {review._id} item xs={4}>
+                <Grid key = {review._id} item xs={6}>
                   <ReviewCard2
                     id={review._id}
                     reviewType={review.type}
+                    reviewTo={review.reviewTo}
+                    reviewToType={review.reviewToType}
+                    reviewFrom={review.reviewFrom}
+                    reviewFromType={review.reviewFromType}
                     reviewMessage={review.review}
                     rating={review.starRating}
                   />

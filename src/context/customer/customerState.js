@@ -77,11 +77,6 @@ const CustomerState = (props) => {
           'content-type': 'application/json',
         },
       };
-      const data = new FormData();
-      data.append('type', formData.type);
-      data.append('reviewTo', formData.reviewTo);
-      data.append('review', formData.review);
-      data.append('starRating', formData.starRating);
       
       const res = await axios.post(
         `http://localhost:5000/api/reviews`,
@@ -91,12 +86,12 @@ const CustomerState = (props) => {
       console.log(res.data);
       console.log(formData);
 
-      dispatch({
+      /*dispatch({
         type: POST_REVIEW,
         payload: {
           reviews: res.data,
         },
-      });
+      });*/
     } catch (error) {
       console.log(error);
     }
@@ -107,8 +102,6 @@ const CustomerState = (props) => {
       const res = await axios.patch(
         `http://localhost:5000/api/reviews/needToHandle/${reviewID}`,
       );
-
-      res.data.needToBeHandled = true;
 
       dispatch({
         type: DISPUTE_REVIEW,

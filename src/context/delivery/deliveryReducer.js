@@ -22,11 +22,11 @@ export default (state, action) => {
           reviews: action.payload,
         };
 
-      case POST_REVIEW:
+      /*case POST_REVIEW:
         return {
           ...state,
           reviews: [...state.reviews, action.payload],
-        };
+        };*/
 
       case DISPUTE_REVIEW:
         return {

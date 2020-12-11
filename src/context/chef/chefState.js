@@ -89,8 +89,6 @@ const ChefState = (props) => {
     try{
       const review = await axios.patch(`http://localhost:5000/api/reviews/needToHandle/${reviewID}`);
       
-      review.data.needToBeHandled = true;
-
       dispatch({
         type: DISPUTE_REVIEW,
         payload: {

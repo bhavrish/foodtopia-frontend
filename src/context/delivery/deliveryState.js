@@ -91,8 +91,6 @@ const DeliveryState = (props) => {
     try{
       const review = await axios.patch(`http://localhost:5000/api/reviews/needToHandle/${reviewID}`);
       
-      review.data.needToBeHandled = true;
-
       dispatch({
         type: DISPUTE_REVIEW,
         payload: reviewID,
@@ -111,12 +109,9 @@ const DeliveryState = (props) => {
         },
       };
 
-      const data = new FormData();
-      data.append('type', formData.type);
-      data.append('reviewTo', formData.reviewTo);
-      data.append('review', formData.review);
-      data.append('starRating', formData.starRating);
-  
+
+      console.log(formData);
+
       const res = await axios.post(
         `http://localhost:5000/api/reviews`,
         formData,
@@ -125,12 +120,12 @@ const DeliveryState = (props) => {
 
       console.log(res.data);
 
-      dispatch({
+      /*dispatch({
         type: POST_REVIEW,
         payload: {
           reviews: res.data,
         },
-      });
+      });*/
     } catch (error) {
       console.log(error);
     }
