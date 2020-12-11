@@ -23,6 +23,7 @@ const AuthState = (props) => {
     isAuthenticated: null,
     loading: true,
     user: null,
+    typeOfUser: null,
     msg: null,
     error: null,
   };
@@ -71,6 +72,8 @@ const AuthState = (props) => {
         },
         config
       );
+      
+      state.typeOfUser = userType;
 
       dispatch({
         type: SIGNIN_SUCCESS,
@@ -157,6 +160,7 @@ const AuthState = (props) => {
         isAuthenticated: state.isAuthenticated,
         loading: state.loading,
         user: state.user,
+        typeOfUser: state.typeOfUser,
         error: state.error,
         msg: state.msg,
         signin,
