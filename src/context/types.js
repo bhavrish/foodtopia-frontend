@@ -24,3 +24,4 @@ export const GET_RECIPES = 'GET_RECIPES';
 export const CREATE_RECIPE = 'CREATE_RECIPE';
 export const GET_ORDERS = 'GET_ORDERS';
 export const COOK_SUCCESS = 'COOK_SUCCESS';
+export const DELIVER_SUCCESS = 'DELIVER_SUCCESS';

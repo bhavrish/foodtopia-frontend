@@ -42,30 +42,33 @@ import AuthState from './context/auth/authState';
 import MenuItemsState from './context/menuItems/menuItemsState';
 import ManagerState from './context/manager/managerState';
 import ChefState from './context/chef/chefState';
+import DeliveryState from './context/delivery/deliveryState';
 
 export default function App() {
   return (
     <MenuItemsState>
       <ManagerState>
         <AuthState>
-          <ChefState>
-            <AlertState>
-              <Router>
-                <div className='App'>
-                  <Alerts />
-                  <Switch>
-                    <Route path='/delivery' component={DeliveryLayout} />
-                    <Route path='/chef' component={ChefLayout} />
-                    <Route path='/manager' component={ManagerLayout} />
-                    <Route path='/customer' component={CustomerLayout} />
-                    <Route path='/auth' component={AuthLayout} />
-                    <Route path='/menus' component={Menus} />
-                    <Route path='/' component={Home} />
-                  </Switch>
-                </div>
-              </Router>
-            </AlertState>
-          </ChefState>
+          <DeliveryState>
+            <ChefState>
+              <AlertState>
+                <Router>
+                  <div className='App'>
+                    <Alerts />
+                    <Switch>
+                      <Route path='/delivery' component={DeliveryLayout} />
+                      <Route path='/chef' component={ChefLayout} />
+                      <Route path='/manager' component={ManagerLayout} />
+                      <Route path='/customer' component={CustomerLayout} />
+                      <Route path='/auth' component={AuthLayout} />
+                      <Route path='/menus' component={Menus} />
+                      <Route path='/' component={Home} />
+                    </Switch>
+                  </div>
+                </Router>
+              </AlertState>
+            </ChefState>
+          </DeliveryState>
         </AuthState>
       </ManagerState>
     </MenuItemsState>

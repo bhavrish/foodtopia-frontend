@@ -22,37 +22,14 @@ export default function Orders(props) {
         // eslint-disable-next-line
     }, []);
 
-    function FormRow() {
-        return (
-            <React.Fragment>
-                <Grid item xs={4}>
-                    <TaskCard />
-                </Grid>
-                <Grid item xs={4}>
-                    <TaskCard />
-                </Grid>
-                <Grid item xs={4}>
-                    <TaskCard />
-                </Grid>
-            </React.Fragment>
-        );
-    }
-
     return(
-        // <Grid container spacing={3}>
-        //     <Grid container item xs={12} spacing={5}>
-        //         <FormRow />
-        //     </Grid>
-        //     <Grid container item xs={12} spacing={5}>
-        //         <FormRow />
-        //     </Grid>
-        // </Grid>
         <Grid container spacing={3}>
             <Grid container item xs={12} spacing={5}>
             {orders.map((order) => (
                 <Grid key={order._id} item xs={4}>
                     <TaskCard
                         id={order._id}
+                        type="chef"
                         title={order.title}
                         imageSrc={`http://localhost:5000/api/menuItems/images/${order.image}`}
                         description={order.description}

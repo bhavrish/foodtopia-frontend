@@ -84,7 +84,7 @@ export default function TaskCard(props) {
       </CardActionArea>
       <CardActions className={classes.button}>
         <Button variant="contained" size="small" color="primary" onClick={onDone}>
-          Cook
+          {props.type === 'chef' ? 'Cook' : 'Deliver'}
           <DoneIcon/>
         </Button>
       </CardActions>
