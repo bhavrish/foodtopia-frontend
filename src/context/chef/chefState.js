@@ -72,7 +72,7 @@ const ChefState = (props) => {
     try {
 
       const res = await axios.get(
-        'http://localhost:5000/api/reviews?reviewTo=chefID'
+        `http://localhost:5000/api/reviews?reviewTo=${chefID}`  
       );
 
       dispatch({
@@ -86,7 +86,7 @@ const ChefState = (props) => {
 
   const disputeReview = async (reviewID) => {
     try{
-      const review = await axios.patch('http://localhost:5000/api/reviews/needToHandle/${reviewID}');
+      const review = await axios.patch(`http://localhost:5000/api/reviews/needToHandle/${reviewID}`);
       
       review.needToBeHandled = true;
 

@@ -2,7 +2,8 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import CustomerContext from './customerContext';
 import CustomerReducer from './customerReducer';
-import { RECOMMENDED_DISHES, GET_REVIEWS, POST_REVIEW, DELETE_REVIEW, DISPUTE_REVIEW } from '../types';
+import { RECOMMENDED_DISHES, GET_REVIEWS, POST_REVIEW, DISPUTE_REVIEW } from '../types';
+import { responsiveFontSizes } from '@material-ui/core';
 
 const CustomerState = (props) => {
   const initialState = {
@@ -43,21 +44,12 @@ const CustomerState = (props) => {
     try {
 
       const res = await axios.get(
-        `http://localhost:5000/api/reviews/`
+        `http://localhost:5000/api/reviews?reviewTo=${customerID}`
       );
-
-      const reviews = [];
-      for (const reviewId of res.data) {
-          const review = await axios.get(
-            `http://localhost:5000/api/reviews/${reviewId}`
-          );
-
-          if(review.reviewTo === customerID){ reviews.push(review.data);}
-      }
 
       dispatch({
         type: GET_REVIEWS,
-        payload: reviews,
+        payload: res.data,
       });
     } catch (error){
       console.log(error);
@@ -74,11 +66,10 @@ const CustomerState = (props) => {
       };
 
       const data = new FormData();
-      data.append('review', formData.review);
-      data.append('reviewFrom', formData.reviewFrom);
-      data.append('reviewTo', formData.reviewTo);
-      data.append('starRating', formData.starRating);
       data.append('type', formData.type);
+      data.append('reviewTo', formData.reviewTo);
+      data.append('review', formData.review);
+      data.append('starRating', formData.starRating);
  
 
       console.log('DATA:', data);
@@ -92,7 +83,7 @@ const CustomerState = (props) => {
       console.log(res.data);
 
       dispatch({
-        type: DISPUTE_REVIEW,
+        type: POST_REVIEW,
         payload: {
           reviews: res.data,
         },
@@ -104,14 +95,14 @@ const CustomerState = (props) => {
 
   const disputeReview = async (reviewID) => {
     try{
-      const review = await axios.patch('http://localhost:5000/api/reviews/needToHandle/${reviewID}');
+      const res = await axios.patch(`http://localhost:5000/api/reviews/needToHandle/${reviewID}`);
 
-      review.needToBeHandled = true;
+      responsiveFontSizes.needToBeHandled = true;
 
       dispatch({
         type: DISPUTE_REVIEW,
         payload: {
-          reviews: review.data,
+          reviews: res.data,
         },
       });
     } catch (error) {
@@ -119,9 +110,6 @@ const CustomerState = (props) => {
     }
 
   };
-
-
-  const deleteReview = (id) => dispatch({ type: DELETE_REVIEW, payload: id });
 
   return (
     <CustomerContext.Provider
@@ -132,7 +120,6 @@ const CustomerState = (props) => {
         getReviews,
         postReview,
         disputeReview,
-        deleteReview,
       }}
     >
       {props.children}

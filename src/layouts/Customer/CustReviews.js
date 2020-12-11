@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import {ReviewCard2} from '../../components';
@@ -34,33 +34,38 @@ const useStyles = makeStyles((theme) => ({
       appBarSpacer: {
         marginTop: '20px',
       },
+      postReviewBtn: {
+        float: 'right',
+      },
   }));
 
 export default function CustReviews(props) {
     const classes = useStyles();
 
-    /*const [review, setReview] = useState({
-      review: '',
-      reviewFrom: '',
-      reviewTo: '',
-      starRating: 5,
-      type: '',
-    });*/
+
     const customerContext = useContext(CustomerContext);
     const authContext = useContext(AuthContext);
 
     const { user } = authContext;
-    const { reviews, getReviews } = customerContext;
+    const { reviews, getReviews, postReview } = customerContext;
 
     useEffect(() => {
       if (user) {
         getReviews(user._id);
-        //postReview();
+        postReview();
       }
       // eslint-disable-next-line
     }, [user]);
 
     const [open, setOpen] = React.useState(false);
+    const [review, setReview] = useState({
+      review: '',
+      reviewFrom: '',
+      reviewTo: '',
+      starRating: 5,
+      type: '',
+    });
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [value, setValue] = React.useState(2);
   
@@ -70,6 +75,14 @@ export default function CustReviews(props) {
   
     const handleClose = () => {
       setOpen(false);
+      postReview({
+        type: review.type,
+        reviewFrom: user._id,
+        reviewTo: review.reviewTo,
+        review: review.review,
+        starRating: review.starRating,
+
+      });
     };
 
     const handleClick = (event) => {
@@ -80,14 +93,17 @@ export default function CustReviews(props) {
         setAnchorEl(null);
     };
 
+    const onChange2 = (e) =>
+      setReview({ ...review, [e.target.name]: e.target.value });
+
   
     return (
       <div>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        <Button variant="outlined" color="primary" onClick={handleClickOpen} className={classes.postReviewBtn}>
           Write a review
         </Button>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Review</DialogTitle>
+          <DialogTitle id="form-dialog-title">Write a Review</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Enter your review below. We appreciate your feedback!
@@ -97,7 +113,9 @@ export default function CustReviews(props) {
                 Review Type
             </Button>
             <Menu
-                id="simple-menu"
+                id="type"
+                name="type"
+                onChange={onChange2}
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
@@ -110,25 +128,30 @@ export default function CustReviews(props) {
               variant="outlined"
               autoFocus
               margin="dense"
-              id="name"
-              label="Review To Id"
+              id="reviewTo"
+              name="reviewTo"
+              label="Review To ID"
               type="email"
               fullWidth
+              onChange={onChange2}
             />
             <TextField
               variant="outlined"
               autoFocus
               margin="dense"
               multiline
-              id="name"
+              id="review"
+              name="review"
               label="Review"
               type="email"
               fullWidth
+              onChange={onChange2}
             />
 
           <Box component="fieldset" mb={3} borderColor="transparent">
             <Rating
-              name="simple-controlled"
+              id="starRating"
+              name="starRating"
               value={value}
               onChange={(event, newValue) => {
                 setValue(newValue);
