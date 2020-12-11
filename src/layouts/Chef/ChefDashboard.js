@@ -24,6 +24,7 @@ export default function ChefDashboard(props) {
     useEffect(() => {
         if (user) {
           getReviews(user._id);
+          //disputeReview();
         }
         // eslint-disable-next-line
       }, [user]);

@@ -100,6 +100,7 @@ const ChefState = (props) => {
     } catch (error) {
       console.log(error);
     }
+  };
 
   const getOrders = async () => {
     const config = {
@@ -179,4 +180,4 @@ const ChefState = (props) => {
 
 };
 
-  export default ChefState;
+export default ChefState;

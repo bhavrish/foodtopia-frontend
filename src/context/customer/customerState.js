@@ -42,7 +42,6 @@ const CustomerState = (props) => {
   // get reviews
   const getReviews = async (customerID) => {
     try {
-
       const res = await axios.get(
         `http://localhost:5000/api/reviews?reviewTo=${customerID}`
       );
@@ -64,7 +63,6 @@ const CustomerState = (props) => {
           'content-type': 'multipart/form-data',
         },
       };
-
       const data = new FormData();
       data.append('type', formData.type);
       data.append('reviewTo', formData.reviewTo);
@@ -72,16 +70,11 @@ const CustomerState = (props) => {
       data.append('starRating', formData.starRating);
  
 
-      console.log('DATA:', data);
-
       const res = await axios.post(
         `http://localhost:5000/api/reviews`,
         data,
         config
       );
-
-      console.log(res.data);
-
       dispatch({
         type: POST_REVIEW,
         payload: {
@@ -95,9 +88,11 @@ const CustomerState = (props) => {
 
   const disputeReview = async (reviewID) => {
     try{
-      const res = await axios.patch(`http://localhost:5000/api/reviews/needToHandle/${reviewID}`);
+      const res = await axios.patch(
+        `http://localhost:5000/api/reviews/needToHandle/${reviewID}`,
+      );
 
-      responsiveFontSizes.needToBeHandled = true;
+      res.needToBeHandled = true;
 
       dispatch({
         type: DISPUTE_REVIEW,

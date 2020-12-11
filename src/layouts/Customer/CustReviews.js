@@ -59,11 +59,11 @@ export default function CustReviews(props) {
 
     const [open, setOpen] = React.useState(false);
     const [review, setReview] = useState({
-      review: '',
+      type: '',
       reviewFrom: '',
       reviewTo: '',
+      review: '',
       starRating: 5,
-      type: '',
     });
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -93,7 +93,7 @@ export default function CustReviews(props) {
         setAnchorEl(null);
     };
 
-    const onChange2 = (e) =>
+    const onChange = (e) =>
       setReview({ ...review, [e.target.name]: e.target.value });
 
   
@@ -115,7 +115,7 @@ export default function CustReviews(props) {
             <Menu
                 id="type"
                 name="type"
-                onChange={onChange2}
+                onChange={onChange}
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
@@ -133,27 +133,25 @@ export default function CustReviews(props) {
               label="Review To ID"
               type="email"
               fullWidth
-              onChange={onChange2}
+              onChange={onChange}
             />
             <TextField
               variant="outlined"
               autoFocus
               margin="dense"
               multiline
-              id="review"
-              name="review"
+              id="name"
               label="Review"
               type="email"
               fullWidth
-              onChange={onChange2}
+              onChange={onChange}
             />
 
           <Box component="fieldset" mb={3} borderColor="transparent">
             <Rating
-              id="starRating"
-              name="starRating"
+              name="simple-controlled"
               value={value}
-              onChange={(event, newValue) => {
+              onChange={(event, newValue, {onChange}) => {
                 setValue(newValue);
               }}
             />
