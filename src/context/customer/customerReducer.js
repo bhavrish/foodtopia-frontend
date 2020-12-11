@@ -3,6 +3,7 @@ import {
   ITEM_IN_CART,
   PLACE_ORDER,
   INSUFFFICIENT_BALANCE,
+  NEW_BALANCE,
   CLEAR_ERRORS,
 } from '../types';
 
@@ -30,6 +31,12 @@ export default (state, action) => {
       return {
         ...state,
         error: action.payload,
+      };
+
+    case NEW_BALANCE:
+      return {
+        ...state,
+        newBalance: action.payload,
       };
 
     case CLEAR_ERRORS:

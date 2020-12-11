@@ -11,6 +11,7 @@ import {
   CLEAR_MSG,
   SERVER_ERROR,
   SUBTRACT_BALANCE,
+  SET_BALANCE,
 } from '../types';
 
 export default (state, action) => {
@@ -70,6 +71,15 @@ export default (state, action) => {
         user: {
           ...state.user,
           balance: state.user.balance - action.payload,
+        },
+      };
+
+    case SET_BALANCE:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          balance: action.payload,
         },
       };
 

@@ -1,6 +1,9 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
 import { DishCard } from '../../components';
 import Typography from '@material-ui/core/Typography';
 
@@ -8,7 +11,12 @@ import AuthContext from '../../context/auth/authContext';
 import CustomerContext from '../../context/customer/customerContext';
 import MenuItemsContext from '../../context/menuItems/menuItemsContext';
 
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  btn: {
+    height: 55,
+    padding: theme.spacing(2),
+  },
+}));
 
 export default function CustDashboard(props) {
   const classes = useStyles();
@@ -17,8 +25,13 @@ export default function CustDashboard(props) {
   const authContext = useContext(AuthContext);
   const menuItemsContext = useContext(MenuItemsContext);
 
-  const { recommendedDishes, getRecommendedDishes } = customerContext;
-  const { user } = authContext;
+  const {
+    recommendedDishes,
+    getRecommendedDishes,
+    addBalance,
+    newBalance,
+  } = customerContext;
+  const { user, setUserBalance } = authContext;
   const {
     menuItems,
     getMenuItems,
@@ -26,13 +39,14 @@ export default function CustDashboard(props) {
     specialDishes,
   } = menuItemsContext;
 
+  const [balance, setBalance] = useState(0);
+
   useEffect(() => {
     if (user) {
       getRecommendedDishes(user._id);
     }
 
     if (menuItems.length === 0) {
-      console.log('IN IF MENUITEMS');
       getMenuItems();
     }
 
@@ -43,9 +57,44 @@ export default function CustDashboard(props) {
     // eslint-disable-next-line
   }, [user, menuItems]);
 
-  console.log(specialDishes);
+  const onAddBtnClick = () => {
+    addBalance(balance, user._id);
+
+    setUserBalance(parseFloat(user.balance + balance));
+  };
+
+  const onAddBtnChange = (e) => {
+    setBalance(e.target.value);
+  };
+
   return (
     <Grid container spacing={3}>
+      <Typography variant='h6' component='h6'>
+        Current Balance - $ {user && user.balance.toFixed(2)}
+      </Typography>
+      <Grid container item spacing={2} direction='row'>
+        <Grid item xs={11}>
+          <TextField
+            fullWidth
+            variant='outlined'
+            name='balance'
+            id='balance'
+            onChange={onAddBtnChange}
+            label='Enter Amount to add to balance'
+          />
+        </Grid>
+        <Grid item>
+          <Button
+            onClick={onAddBtnClick}
+            variant='contained'
+            color='primary'
+            className={classes.btn}
+          >
+            Add
+          </Button>
+        </Grid>
+      </Grid>
+
       <div>
         {recommendedDishes.length > 0 ? (
           <Typography variant='h6' component='h6'>

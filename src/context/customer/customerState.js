@@ -7,6 +7,7 @@ import {
   ITEM_IN_CART,
   PLACE_ORDER,
   INSUFFFICIENT_BALANCE,
+  NEW_BALANCE,
   CLEAR_ERRORS,
 } from '../types';
 
@@ -14,6 +15,7 @@ const CustomerState = (props) => {
   const initialState = {
     recommendedDishes: [],
     itemsInCart: [],
+    newBalance: null,
     error: null,
   };
 
@@ -69,6 +71,24 @@ const CustomerState = (props) => {
     } catch (error) {}
   };
 
+  const addBalance = async (balance, customerId) => {
+    try {
+      const res = await axios.patch(
+        `http://localhost:5000/api/customers/balance/${customerId}`,
+        {
+          amount: parseFloat(balance),
+        }
+      );
+
+      dispatch({
+        type: NEW_BALANCE,
+        payload: res.data.balance,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const clearError = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
@@ -76,10 +96,12 @@ const CustomerState = (props) => {
       value={{
         recommendedDishes: state.recommendedDishes,
         itemsInCart: state.itemsInCart,
+        newBalance: state.newBalance,
         error: state.error,
         getRecommendedDishes,
         addToCart,
         createOrder,
+        addBalance,
         clearError,
       }}
     >

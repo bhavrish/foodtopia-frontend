@@ -13,6 +13,7 @@ import {
   SIGNOUT_FAIL,
   AUTH_ERROR,
   SUBTRACT_BALANCE,
+  SET_BALANCE,
   CLEAR_ERRORS,
   CLEAR_MSG,
   SERVER_ERROR,
@@ -149,6 +150,12 @@ const AuthState = (props) => {
   const subtractUserBalance = (price) =>
     dispatch({ type: SUBTRACT_BALANCE, payload: price });
 
+  const setUserBalance = (balance) => {
+    console.log('IN SET USE BALANCE');
+    console.log(balance);
+    dispatch({ type: SET_BALANCE, payload: balance });
+  };
+
   // clear errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
@@ -169,6 +176,7 @@ const AuthState = (props) => {
         signout,
         loadUser,
         subtractUserBalance,
+        setUserBalance,
         clearErrors,
         clearMsg,
       }}
