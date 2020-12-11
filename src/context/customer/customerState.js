@@ -2,7 +2,13 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import CustomerContext from './customerContext';
 import CustomerReducer from './customerReducer';
-import { RECOMMENDED_DISHES, ITEM_IN_CART } from '../types';
+import {
+  RECOMMENDED_DISHES,
+  ITEM_IN_CART,
+  PLACE_ORDER,
+  INSUFFFICIENT_BALANCE,
+  CLEAR_ERRORS,
+} from '../types';
 
 const CustomerState = (props) => {
   const initialState = {
@@ -41,25 +47,40 @@ const CustomerState = (props) => {
   const addToCart = (menuItem) =>
     dispatch({ type: ITEM_IN_CART, payload: menuItem });
 
-  const createOrder = async (order) => {
+  const createOrder = async (order, userBalance) => {
     try {
+      if (order.price > userBalance) {
+        dispatch({
+          type: INSUFFFICIENT_BALANCE,
+          payload: 'Insufficient balance',
+        });
+      }
+
       const res = await axios.post('http://localhost:5000/api/orders', {
-        menuItemID: order.menuItemIdD,
+        menuItemID: order.menuItemID,
         customerID: order.customerID,
         deliveryNeeded: order.deliveryNeeded,
         price: order.price,
       });
+
+      dispatch({
+        type: PLACE_ORDER,
+      });
     } catch (error) {}
   };
+
+  const clearError = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
     <CustomerContext.Provider
       value={{
         recommendedDishes: state.recommendedDishes,
         itemsInCart: state.itemsInCart,
+        error: state.error,
         getRecommendedDishes,
         addToCart,
         createOrder,
+        clearError,
       }}
     >
       {props.children}
