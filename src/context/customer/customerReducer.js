@@ -5,6 +5,7 @@ import {
   INSUFFFICIENT_BALANCE,
   NEW_BALANCE,
   CLEAR_ERRORS,
+  DISCUSSION_POSTS_SUCCESS,
 } from '../types';
 
 export default (state, action) => {
@@ -13,6 +14,12 @@ export default (state, action) => {
       return {
         ...state,
         recommendedDishes: action.payload,
+      };
+
+    case DISCUSSION_POSTS_SUCCESS:
+      return {
+        ...state,
+        discussionPosts: action.payload,
       };
 
     case ITEM_IN_CART:

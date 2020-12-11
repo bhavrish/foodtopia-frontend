@@ -1,29 +1,78 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ManagerContext from '../context/manager/managerContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 550,
     minHeight: 250,
-    background: theme.palette.primary.main,
+    background: theme.palette.textBackground.main,
   },
+  red: {
+    background: theme.palette.buttonColor1.main,
+    marginRight: theme.spacing(2)
+  },
+  green: {
+    background: theme.palette.buttonColor2.main,
+    marginRight: theme.spacing(2)
+  }
 }));
 
-export default function ReviewCard() {
+export default function ReviewCard(props) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+
+  const managerContext = useContext(ManagerContext);
+  const { approveReview, dismissReview } = managerContext;
+
+  const onApprove = () => {
+    approveReview(props.id);
+  };
+
+  const onDismiss = () => {
+    dismissReview(props.id);
+  };
 
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Word of the Day
+        <Typography gutterBottom variant="h5" component="h2">
+          {props.reviewType}
         </Typography>
+        <Typography variant="h7" component="h6">
+          Review To
+        </Typography>
+        <Typography gutterBottom variant="h7" component="h4">
+          {props.reviewTo} ({props.reviewToType})
+        </Typography>
+        <Typography variant="h7" component="h6">
+          Review From
+        </Typography>
+        <Typography gutterBottom variant="h7" component="h4">
+          {props.reviewFrom} ({props.reviewFromType})
+        </Typography>
+        <Typography variant="h7" component="h6">
+          Review
+        </Typography>
+        <Typography gutterBottom variant="h7" component="h4">
+          {props.reviewMessage}
+        </Typography>
+        <br/>
+        <Box component="fieldset" mb={3} borderColor="transparent">
+          <Typography component="legend">Rating</Typography>
+          <Rating name="review-rating" value={props.rating} readOnly />
+        </Box>
+        <Box display="flex" justifyContent="flex-end">
+            <Button className={classes.green} size="small" minWidth='50px' onClick={onApprove}>Valid</Button>
+            <Button className={classes.red} size="small" minWidth='50px' onClick={onDismiss}>Invalid</Button>
+        </Box>
       </CardContent>
     </Card>
   );

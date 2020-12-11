@@ -9,6 +9,7 @@ import {
   INSUFFFICIENT_BALANCE,
   NEW_BALANCE,
   CLEAR_ERRORS,
+  DISCUSSION_POSTS_SUCCESS,
 } from '../types';
 
 const CustomerState = (props) => {
@@ -16,6 +17,7 @@ const CustomerState = (props) => {
     recommendedDishes: [],
     itemsInCart: [],
     newBalance: null,
+    discussionPosts: [],
     error: null,
   };
 
@@ -89,6 +91,67 @@ const CustomerState = (props) => {
   };
 
   const clearError = () => dispatch({ type: CLEAR_ERRORS });
+  // get discussion posts
+  const getDiscussionPosts = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/discussions');
+
+      dispatch({
+        type: DISCUSSION_POSTS_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // post to discussion
+  const postToDiscussion = async (postData) => {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+    const message = postData.message;
+    const messageFrom = postData.customerID;
+
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/api/discussions`,
+        {
+          message,
+          messageFrom,
+        },
+        config
+      );
+
+      dispatch({
+        type: DISCUSSION_POSTS_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error.response.data.msg);
+    }
+  };
+
+  // flag discussion post
+  const flagDiscussionPost = async (customerID) => {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/api/manager/discussion/${customerID}`,
+        config
+      );
+
+      dispatch({
+        type: DISCUSSION_POSTS_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error.response.data.msg);
+    }
+  };
 
   return (
     <CustomerContext.Provider
@@ -97,11 +160,15 @@ const CustomerState = (props) => {
         itemsInCart: state.itemsInCart,
         newBalance: state.newBalance,
         error: state.error,
+        discussionPosts: state.discussionPosts,
         getRecommendedDishes,
         addToCart,
         createOrder,
         addBalance,
         clearError,
+        getDiscussionPosts,
+        postToDiscussion,
+        flagDiscussionPost,
       }}
     >
       {props.children}
