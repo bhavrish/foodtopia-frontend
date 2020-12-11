@@ -29,12 +29,6 @@ export default function DelivListItems(props) {
             </ListItemIcon>
             <ListItemText primary="Deliveries" />
         </ListItem>
-        <ListItem button component={RouterLink} to="/delivery/discussion" onClick={() => props.display('Discussion')}>
-            <ListItemIcon>
-                <ForumIcon />
-            </ListItemIcon>
-            <ListItemText primary="Discussion" />
-        </ListItem>
     </div>
   );
 };

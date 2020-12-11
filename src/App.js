@@ -5,7 +5,6 @@ import {
   CustListItems,
   CustDashboard,
   Cart,
-  CustDiscussion,
   CustReviews,
 } from './layouts/Customer';
 import {
@@ -13,20 +12,17 @@ import {
   ManagDashboard,
   EmployeeList,
   CustomerList,
-  ManagDiscussion,
 } from './layouts/Manager';
 import {
   ChefListItems,
   ChefDashboard,
   Orders,
   Recipes,
-  ChefDiscussion,
 } from './layouts/Chef';
 import {
   DelivListItems,
   DelivDashboard,
   Deliveries,
-  DelivDiscussion,
 } from './layouts/Delivery';
 import { DashboardLayout, Home, Menus } from './layouts';
 import {
@@ -95,7 +91,6 @@ function CustomerLayout() {
       <Route path='/customer/dashboard' exact component={CustDashboard} />
       <Route path='/customer/reviews' exact component={CustReviews} />
       <Route path='/customer/cart' exact component={Cart} />
-      <Route path='/customer/discussion' exact component={CustDiscussion} />
     </Switch>
   );
 
@@ -109,7 +104,6 @@ function ManagerLayout() {
       <Route path='/manager/dashboard' exact component={ManagDashboard} />
       <Route path='/manager/employees' exact component={EmployeeList} />
       <Route path='/manager/customers' exact component={CustomerList} />
-      <Route path='/manager/discussion' exact component={ManagDiscussion} />
     </Switch>
   );
 
@@ -123,7 +117,6 @@ function ChefLayout() {
       <Route path='/chef/dashboard' exact component={ChefDashboard} />
       <Route path='/chef/recipes' exact component={Recipes} />
       <Route path='/chef/orders' exact component={Orders} />
-      <Route path='/chef/discussion' exact component={ChefDiscussion} />
     </Switch>
   );
 
@@ -136,7 +129,6 @@ function DeliveryLayout() {
       <Redirect exact from='/delivery' to='/delivery/dashboard' />
       <Route path='/delivery/dashboard' exact component={DelivDashboard} />
       <Route path='/delivery/deliveries' exact component={Deliveries} />
-      <Route path='/delivery/discussion' exact component={DelivDiscussion} />
     </Switch>
   );
 

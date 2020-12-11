@@ -36,12 +36,6 @@ export default function ManagListItems(props) {
             </ListItemIcon>
             <ListItemText primary="Manage Customers" />
         </ListItem>
-        <ListItem button component={RouterLink} to="/manager/discussion" onClick={() => props.display('Discussion')}>
-            <ListItemIcon>
-                <ForumIcon />
-            </ListItemIcon>
-            <ListItemText primary="Discussion" />
-        </ListItem>
     </div>
   );
 };

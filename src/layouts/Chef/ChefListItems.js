@@ -36,12 +36,6 @@ export default function ChefListItems(props) {
             </ListItemIcon>
             <ListItemText primary="Orders" />
         </ListItem>
-        <ListItem button component={RouterLink} to="/chef/discussion" onClick={() => props.display('Discussion')}>
-            <ListItemIcon>
-                <ForumIcon />
-            </ListItemIcon>
-            <ListItemText primary="Discussion" />
-        </ListItem>
     </div>
   );
 };
