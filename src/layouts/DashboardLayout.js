@@ -82,7 +82,8 @@ export default function DashboardLayout(props) {
           customerID: user._id,
           message: newMessage,
         });
-        CustToast.warning('Please do not use inappropriate language');
+        if (1 <= numOfBadWords && numOfBadWords <= 3)
+          CustToast.warning('Please do not use inappropriate language');
       }
     }
   };
