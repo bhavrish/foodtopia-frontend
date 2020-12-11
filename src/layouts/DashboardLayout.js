@@ -97,7 +97,7 @@ export default function DashboardLayout(props) {
             <Widget
               handleNewUserMessage={onNewMessage}
               profileAvatar={
-                'https://www.midtownatlanta.org/wp-content/uploads/2019/06/istockphoto-1005214200-170667a.jpg'
+                'https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/254000/01-512.png'
               }
               senderPlaceHolder='Type your message'
               title='Discussion'
