@@ -7,6 +7,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import ForumIcon from '@material-ui/icons/Forum';
+import AllInboxIcon from '@material-ui/icons/AllInbox';
 import { Link as RouterLink } from 'react-router-dom';
 
 export default function CustListItems(props) {

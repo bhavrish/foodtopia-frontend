@@ -10,7 +10,10 @@ import Typography from '@material-ui/core/Typography';
 import AuthContext from '../../context/auth/authContext';
 import CustomerContext from '../../context/customer/customerContext';
 import MenuItemsContext from '../../context/menuItems/menuItemsContext';
+import Divider from '@material-ui/core/Divider';
 import { Redirect } from 'react-router-dom';
+
+import PreviousOrders from './PreviousOrders';
 
 const useStyles = makeStyles((theme) => ({
   btn: {
@@ -61,7 +64,7 @@ export default function CustDashboard(props) {
   // if blacklisted user, log out user
   if (user && user.isBlacklisted) {
     signout();
-    return (<Redirect to = '/' />);
+    return <Redirect to='/' />;
   }
 
   const onAddBtnClick = () => {
@@ -108,9 +111,11 @@ export default function CustDashboard(props) {
         </Grid>
       </Grid>
       <div>
+        <br />
+
         {recommendedDishes.length > 0 ? (
           <Typography variant='h6' component='h6'>
-            Recommended Dishes
+            &nbsp; Recommended Dishes
           </Typography>
         ) : null}
         <Grid container spacing={2} style={{ margin: 0, width: '100%' }}>
@@ -131,7 +136,10 @@ export default function CustDashboard(props) {
           </Grid>
         </Grid>
       </div>
+
       <div>
+        <br />
+        <br />
         {user && user.isVIP ? (
           <Typography variant='h6' component='h6'>
             Special Dishes
@@ -153,6 +161,14 @@ export default function CustDashboard(props) {
               </Grid>
             ))}
         </Grid>
+      </div>
+      <br />
+      <br />
+      <div>
+        <Typography variant='h6' component='h6'>
+          Previous Orders
+        </Typography>
+        <PreviousOrders />
       </div>
     </Grid>
   );

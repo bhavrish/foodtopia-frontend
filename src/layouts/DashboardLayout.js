@@ -78,13 +78,14 @@ export default function DashboardLayout(props) {
           'Your message was deleted. You have been given a warning, please do not use inappropriate language'
         );
       } else {
-        flagDiscussionPost(user._id);
         postToDiscussion({
           customerID: user._id,
           message: newMessage,
         });
-        if (1 <= numOfBadWords && numOfBadWords <= 3)
+        if (1 <= numOfBadWords && numOfBadWords <= 3) {
+          flagDiscussionPost(user._id);
           CustToast.warning('Please do not use inappropriate language');
+        }
       }
     }
   };

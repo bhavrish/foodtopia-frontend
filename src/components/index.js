@@ -8,6 +8,7 @@ import TaskCard from './TaskCard';
 import ReceiptCard from './ReceiptCard';
 import CartCard from './CartCard';
 import Alerts from './Alerts';
+import CustomerOrder from './CustomerOrder';
 
 export {
   Nav,
@@ -20,4 +21,5 @@ export {
   ReceiptCard,
   CartCard,
   Alerts,
+  CustomerOrder,
 };

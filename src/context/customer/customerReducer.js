@@ -6,9 +6,10 @@ import {
   NEW_BALANCE,
   CLEAR_ERRORS,
   DISCUSSION_POSTS_SUCCESS,
-  GET_REVIEWS, 
+  GET_REVIEWS,
   POST_REVIEW,
   DISPUTE_REVIEW,
+  GET_ORDERS,
 } from '../types';
 
 export default (state, action) => {
@@ -25,25 +26,25 @@ export default (state, action) => {
         discussionPosts: action.payload,
       };
 
-      case GET_REVIEWS:
-        return {
-          ...state,
-          reviews: action.payload,
-        };
-/*
+    case GET_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+      };
+    /*
       case POST_REVIEW:
         return {
           ...state,
           reviews: [...state.reviews, action.payload],
         };*/
 
-      case DISPUTE_REVIEW:
-        return {
-          ...state,
-          reviews: state.reviews.filter(
-            review => review._id !== action.payload
-          ),
-        };
+    case DISPUTE_REVIEW:
+      return {
+        ...state,
+        reviews: state.reviews.filter(
+          (review) => review._id !== action.payload
+        ),
+      };
     case ITEM_IN_CART:
       return {
         ...state,
@@ -68,6 +69,12 @@ export default (state, action) => {
       return {
         ...state,
         newBalance: action.payload,
+      };
+
+    case GET_ORDERS:
+      return {
+        ...state,
+        orders: action.payload,
       };
 
     case CLEAR_ERRORS:

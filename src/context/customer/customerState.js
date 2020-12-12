@@ -13,12 +13,13 @@ import {
   GET_REVIEWS,
   POST_REVIEW,
   DISPUTE_REVIEW,
+  GET_ORDERS,
 } from '../types';
 
 const CustomerState = (props) => {
   const initialState = {
     recommendedDishes: [],
-    reviews:[],
+    reviews: [],
     itemsInCart: [],
     newBalance: null,
     discussionPosts: [],
@@ -63,7 +64,7 @@ const CustomerState = (props) => {
         type: GET_REVIEWS,
         payload: res.data,
       });
-    } catch (error){
+    } catch (error) {
       console.log(error);
     }
   };
@@ -109,7 +110,39 @@ const CustomerState = (props) => {
     }
   };
 
-  
+  const getOrders = async (customerId) => {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+    const type = 'customer';
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/orders?type=${type}`,
+        {
+          customerId,
+        },
+        config
+      );
+      // console.log(res);
+      for (const order of res.data) {
+        const menuItemID = order.menuItem;
+        const menuItemDetails = await axios.get(
+          `http://localhost:5000/api/menuItems/${menuItemID}`
+        );
+        order.title = menuItemDetails.data.title;
+        order.image = menuItemDetails.data.image;
+        order.description = menuItemDetails.data.description;
+        order.restrictions = menuItemDetails.data.dietaryRestrictions;
+      }
+      dispatch({
+        type: GET_ORDERS,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error.response.data.msg);
+    }
+  };
+
   const clearError = () => dispatch({ type: CLEAR_ERRORS });
   // get discussion posts
   const getDiscussionPosts = async () => {
@@ -125,15 +158,15 @@ const CustomerState = (props) => {
     }
   };
 
-   // post review
-   const postReview = async (formData) => {
-    try{
+  // post review
+  const postReview = async (formData) => {
+    try {
       const config = {
         headers: {
           'content-type': 'application/json',
         },
       };
-      
+
       const res = await axios.post(
         `http://localhost:5000/api/reviews`,
         formData,
@@ -154,9 +187,9 @@ const CustomerState = (props) => {
   };
 
   const customerDisputeReview = async (reviewID) => {
-    try{
+    try {
       const res = await axios.patch(
-        `http://localhost:5000/api/reviews/needToHandle/${reviewID}`,
+        `http://localhost:5000/api/reviews/needToHandle/${reviewID}`
       );
 
       dispatch({
@@ -227,6 +260,7 @@ const CustomerState = (props) => {
         error: state.error,
         discussionPosts: state.discussionPosts,
         reviews: state.reviews,
+        orders: state.orders,
         getRecommendedDishes,
         getReviews,
         postReview,
@@ -238,6 +272,7 @@ const CustomerState = (props) => {
         getDiscussionPosts,
         postToDiscussion,
         flagDiscussionPost,
+        getOrders,
       }}
     >
       {props.children}
