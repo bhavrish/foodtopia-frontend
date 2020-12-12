@@ -11,12 +11,6 @@ import { Link as RouterLink } from 'react-router-dom';
 export default function DelivListItems(props) {
   return(
     <div>
-        <ListItem button component={RouterLink} to="/">
-            <ListItemIcon>
-                <HomeIcon />
-            </ListItemIcon>
-        <ListItemText primary="Home" />
-        </ListItem>
         <ListItem button component={RouterLink} to="/delivery/dashboard" onClick={() => props.display('Dashboard')}>
             <ListItemIcon>
                 <DashboardIcon />

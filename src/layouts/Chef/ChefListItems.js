@@ -12,12 +12,6 @@ import { Link as RouterLink } from 'react-router-dom';
 export default function ChefListItems(props) {
   return(
     <div>
-        <ListItem button component={RouterLink} to="/">
-            <ListItemIcon>
-                <HomeIcon />
-            </ListItemIcon>
-        <ListItemText primary="Home" />
-        </ListItem>
         <ListItem button component={RouterLink} to="/chef/dashboard" onClick={() => props.display('Dashboard')}>
             <ListItemIcon>
                 <DashboardIcon />
