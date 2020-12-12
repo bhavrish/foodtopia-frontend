@@ -34,7 +34,7 @@ const MenuItemsState = (props) => {
   };
 
   // get menuItems
-  const getMenuItems = async () => {
+  const getMenuItems = async (isVIP) => {
     try {
       const res = await axios.get('http://localhost:5000/api/menuItems');
 
@@ -44,9 +44,19 @@ const MenuItemsState = (props) => {
         menuItem.starRating = rate.toFixed(1);
       });
 
+      let nonSpecialItems = [];
+      console.log('AXIOS RES:', res.data);
+
+      if (!isVIP) {
+        nonSpecialItems = res.data.filter(
+          (menuItem) => menuItem.specialItem == false
+        );
+      }
+      console.log('NON_SPECIAL:', nonSpecialItems);
+
       dispatch({
         type: GET_MENUITEMS,
-        payload: res.data,
+        payload: isVIP ? res.data : nonSpecialItems,
       });
     } catch (error) {
       const errMsg =

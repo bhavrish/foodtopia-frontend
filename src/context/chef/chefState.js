@@ -2,7 +2,14 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import ChefContext from './chefContext';
 import ChefReducer from './chefReducer';
-import { GET_RECIPES, CREATE_RECIPE, GET_ORDERS, COOK_SUCCESS, GET_REVIEWS, DISPUTE_REVIEW } from '../types';
+import {
+  GET_RECIPES,
+  CREATE_RECIPE,
+  GET_ORDERS,
+  COOK_SUCCESS,
+  GET_REVIEWS,
+  DISPUTE_REVIEW,
+} from '../types';
 
 const ChefState = (props) => {
   const initialState = {
@@ -39,6 +46,8 @@ const ChefState = (props) => {
         },
       };
 
+      console.log(formData);
+
       const data = new FormData();
       data.append('image', formData.image);
       data.append('title', formData.title);
@@ -48,6 +57,7 @@ const ChefState = (props) => {
       data.append('ingredients', formData.ingredients);
       data.append('dietaryRestrictions', formData.dietaryRestrictions);
       data.append('price', formData.price);
+      data.append('specialItem', formData.specialItem);
 
       console.log('DATA:', data);
 
@@ -71,24 +81,25 @@ const ChefState = (props) => {
   // get reviews
   const getReviews = async (chefID) => {
     try {
-
       const res = await axios.get(
-        `http://localhost:5000/api/reviews?reviewTo=${chefID}`  
+        `http://localhost:5000/api/reviews?reviewTo=${chefID}`
       );
 
       dispatch({
         type: GET_REVIEWS,
         payload: res.data,
       });
-    } catch (error){
+    } catch (error) {
       console.log(error);
     }
   };
 
   const chefDisputeReview = async (reviewID) => {
-    try{
-      const review = await axios.patch(`http://localhost:5000/api/reviews/needToHandle/${reviewID}`);
-      
+    try {
+      const review = await axios.patch(
+        `http://localhost:5000/api/reviews/needToHandle/${reviewID}`
+      );
+
       dispatch({
         type: DISPUTE_REVIEW,
         payload: {
@@ -111,10 +122,12 @@ const ChefState = (props) => {
         `http://localhost:5000/api/orders?type=${type}`,
         config
       );
-            
+
       for (const order of res.data) {
         const menuItemID = order.menuItem;
-        const menuItemDetails = await axios.get(`http://localhost:5000/api/menuItems/${menuItemID}`);
+        const menuItemDetails = await axios.get(
+          `http://localhost:5000/api/menuItems/${menuItemID}`
+        );
 
         order.title = menuItemDetails.data.title;
         order.image = menuItemDetails.data.image;
@@ -175,7 +188,6 @@ const ChefState = (props) => {
       {props.children}
     </ChefContext.Provider>
   );
-
 };
 
 export default ChefState;

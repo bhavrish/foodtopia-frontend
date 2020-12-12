@@ -52,6 +52,7 @@ export default function CustDashboard(props) {
     }
 
     if (user && user.isVIP) {
+      getMenuItems(user.isVIP);
       filterSpecialDishes();
     }
 
@@ -61,7 +62,7 @@ export default function CustDashboard(props) {
   // if blacklisted user, log out user
   if (user && user.isBlacklisted) {
     signout();
-    return (<Redirect to = '/' />);
+    return <Redirect to='/' />;
   }
 
   const onAddBtnClick = () => {
