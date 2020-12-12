@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { Nav, DishCard } from '../components';
 
 import MenuItemsContext from '../context/menuItems/menuItemsContext';
+import AuthContext from '../context/auth/authContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +40,8 @@ export default function Menus() {
   const classes = useStyles();
 
   const menuItemsContext = useContext(MenuItemsContext);
+  const authContext = useContext(AuthContext);
+
   const text = useRef('');
 
   const {
@@ -48,15 +51,20 @@ export default function Menus() {
     filtered,
     clearSearch,
   } = menuItemsContext;
+  const { user } = authContext;
 
   useEffect(() => {
-    getMenuItems();
+    if (user) {
+      getMenuItems(user.isVIP);
+    } else {
+      getMenuItems(false);
+    }
 
     if (filtered === null) {
       text.current.value = '';
     }
     // eslint-disable-next-line
-  }, []);
+  }, [user]);
 
   const onChange = (e) => {
     if (text.current.value !== '') {
@@ -91,7 +99,7 @@ export default function Menus() {
                     imageSrc={`http://localhost:5000/api/menuItems/images/${menuItem.image}`}
                     title={menuItem.title}
                     price={menuItem.price}
-                    rate={menuItem.starRating.toFixed(1)}
+                    rate={menuItem.starRating}
                     chefName={menuItem.chefName}
                     description={menuItem.description}
                     menuItem={menuItem}

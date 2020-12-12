@@ -55,6 +55,7 @@ export default function CustDashboard(props) {
     }
 
     if (user && user.isVIP) {
+      getMenuItems(user.isVIP);
       filterSpecialDishes();
     }
 

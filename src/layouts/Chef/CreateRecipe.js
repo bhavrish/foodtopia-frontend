@@ -8,6 +8,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
 import { DropzoneArea } from 'material-ui-dropzone';
 
 import ChefContext from '../../context/chef/chefContext';
@@ -37,6 +40,7 @@ const CreateRecipe = () => {
     dietaryRestrictions: '',
     type: '',
     price: 0,
+    specialItem: false,
   });
   const [image, setImage] = useState(undefined);
 
@@ -56,6 +60,7 @@ const CreateRecipe = () => {
       dietaryRestrictions: recipe.dietaryRestrictions,
       type: recipe.type,
       price: recipe.price,
+      specialItem: recipe.specialItem,
       image: image,
     });
   };
@@ -153,6 +158,27 @@ const CreateRecipe = () => {
             label='Price'
             onChange={onChange}
           />
+
+          <FormControl variant='outlined' fullWidth margin='normal'>
+            <InputLabel htmlFor='outlined-userType-native-simple'>
+              Special Item
+            </InputLabel>
+            <Select
+              native
+              onChange={onChange}
+              required
+              label='Special Item'
+              inputProps={{
+                name: 'specialItem',
+                id: 'specialItem',
+              }}
+            >
+              <option aria-label='None' value='' />
+              <option value={true}>Yes</option>
+              <option value={false}>No</option>
+            </Select>
+          </FormControl>
+
           <DropzoneArea name='image' onChange={uploadImage} />
         </DialogContent>
         <DialogActions>

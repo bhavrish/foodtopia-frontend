@@ -9,6 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
 
 import AuthContext from '../context/auth/authContext';
 import CustomerContext from '../context/customer/customerContext';
@@ -33,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
   button: {
     display: 'flex',
     justifyContent: 'flex-end',
+  },
+
+  specialItem: {
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
   },
 }));
 
@@ -78,6 +85,16 @@ export default function DishCard(props) {
               {props.rate}
             </Typography>
           </div>
+
+          <div className={classes.specialItem}>
+            {props.menuItem.specialItem ? (
+              <div className={classes.specialItem}>
+                <Typography>Chef's Special &nbsp; </Typography>
+                <NewReleasesIcon />
+              </div>
+            ) : null}
+          </div>
+
           <Typography variant='body2' color='textSecondary' component='p'>
             {props.description}
           </Typography>
