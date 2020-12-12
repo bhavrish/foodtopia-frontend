@@ -117,13 +117,9 @@ const CustomerState = (props) => {
     const type = 'customer';
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/orders?type=${type}`,
-        {
-          customerId,
-        },
+        `http://localhost:5000/api/orders?type=${type}&customerID=${customerId}`,
         config
       );
-      // console.log(res);
       for (const order of res.data) {
         const menuItemID = order.menuItem;
         const menuItemDetails = await axios.get(
