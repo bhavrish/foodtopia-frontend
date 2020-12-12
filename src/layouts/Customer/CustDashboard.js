@@ -46,16 +46,12 @@ export default function CustDashboard(props) {
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
+    console.log('useEffect called');
     if (user) {
       getRecommendedDishes(user._id);
     }
 
-    if (menuItems.length === 0) {
-      getMenuItems();
-    }
-
     if (user && user.isVIP) {
-      getMenuItems(user.isVIP);
       filterSpecialDishes();
     }
 
@@ -111,9 +107,8 @@ export default function CustDashboard(props) {
           </Button>
         </Grid>
       </Grid>
-      <div>
-        <br />
 
+      <div>
         {recommendedDishes.length > 0 ? (
           <Typography variant='h6' component='h6'>
             &nbsp; Recommended Dishes
@@ -138,31 +133,6 @@ export default function CustDashboard(props) {
         </Grid>
       </div>
 
-      <div>
-        <br />
-        <br />
-        {user && user.isVIP ? (
-          <Typography variant='h6' component='h6'>
-            Special Dishes
-          </Typography>
-        ) : null}
-        <Grid container item xs={12} spacing={2}>
-          {specialDishes &&
-            specialDishes.map((specialDish) => (
-              <Grid key={specialDish._id} item xs={4}>
-                <DishCard
-                  imageSrc={`http://localhost:5000/api/menuItems/images/${specialDish.image}`}
-                  title={specialDish.title}
-                  price={specialDish.price}
-                  rate={specialDish.starRating}
-                  chefName={specialDish.chefName}
-                  description={specialDish.description}
-                  menuItem={specialDish}
-                />
-              </Grid>
-            ))}
-        </Grid>
-      </div>
       <br />
       <br />
       <div>
